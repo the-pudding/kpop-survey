@@ -4,8 +4,8 @@ export default [
 		"filepath": "src/data/copy.json"
 	},
 	{
-		"id": "1te65h_nywgXVAzvV-9E5fmHGblcKvctf_cNZgeam9Tk",
+		"id": "132xWDRqPzlSQX5PoZ3Msze4zpZOgzpU3hS6ftdSUWK8",
 		"gid": "0",
-		"filepath": "src/data/test.csv"
+		"filepath": "src/data/artists.csv"
 	}
 ]
