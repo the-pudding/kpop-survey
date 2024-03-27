@@ -16,18 +16,33 @@
 
 	let board = [
 		{
-			id: 1,
+			id: 0,
 			name: "artists",
 			items: artists
 		},
 		{
-			id: 2,
+			id: 1,
 			name: "gen 1",
 			items: []
 		},
 		{
-			id: 3,
+			id: 2,
 			name: "gen 2",
+			items: []
+		},
+		{
+			id: 3,
+			name: "gen 3",
+			items: []
+		},
+		{
+			id: 4,
+			name: "gen 4",
+			items: []
+		},
+		{
+			id: 5,
+			name: "gen 5",
 			items: []
 		}
 	];
