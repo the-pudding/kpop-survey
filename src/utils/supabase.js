@@ -5,8 +5,30 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+export const addToGen = async (cid,item) => {
+	console.log(cid,item)
+	if(item.detail.info.trigger == "droppedIntoZone"){
+		let artistId = item.detail.info.id;
+		let genId = cid;
+
+		const response = await supabase
+			.from('entries')
+				.insert([{artist_id: artistId, gen: genId}], { returning: "minimal" })
+				.select()
+
+			if (response.error) {
+				console.log(response.error);
+				throw new Error("insert failed");
+			}
+			return true;
+
+	}
+
+}
 
 export const readAll = async () => {
+
+	console.log(supabase)
 
     const response = await supabase
         .from('entries')
@@ -20,11 +42,11 @@ export const readAll = async () => {
         return true;
 
     
-    // console.log(await supabase
-    // .from('entries')
-    // .select('*'))
+    console.log(await supabase
+    .from('entries')
+    .select('*'))
 
-    // console.log()
+    console.log()
         
 }
 // public

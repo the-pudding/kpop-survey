@@ -1,1 +1,1 @@
-{"meta":{"title":"Title TK","description":"Description tk."},"body":[{"type":"svelte","value":{"component":"Example"}}]}
+{"meta":{"title":"Title TK","description":"Description tk."},"intro":{"title":"What makes a K-pop Generation?","dek":"Take this survey to identify the different K-pop generations and we’ll tell you what kind of K-pop fan you are!","button":"Start"},"board":{"clue":"Drag each group into an album"},"body":[{"type":"svelte","value":{"component":"Example"}}]}
