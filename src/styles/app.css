@@ -68,8 +68,10 @@
 	}
 }
 
-.dragging-artist {
-	border: 10px solid red;
+.dragging-artist, #dnd-action-dragged-el {
+	/* visibility: hidden; */
+	display: none;
+
 }
 
 h1 {

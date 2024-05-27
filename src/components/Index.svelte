@@ -4,8 +4,6 @@
 	import WIP from "$components/helpers/WIP.svelte";
 	import { onMount } from "svelte";
 	import artists from "$data/artists.csv"
-    import {flip} from "svelte/animate";
-    import {dndzone} from "svelte-dnd-action";
 	import Intro from "$components/Intro.svelte";
 	import copy from "$data/copy.json";
 
@@ -19,7 +17,7 @@
 		{
 			id: 0,
 			name: "artists",
-			items: artists.slice(0,1)
+			items: artists//.slice(0,2)
 		},
 		{
 			id: 1,

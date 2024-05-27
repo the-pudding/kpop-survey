@@ -1,7 +1,10 @@
 <script>
 	// This is done in a single file for clarity. A more factored version here: https://svelte.dev/repl/288f827275db4054b23c437a572234f6?version=3.38.2
     import { flip } from 'svelte/animate';
-    import { dndzone } from 'svelte-dnd-action';
+    import { fade } from 'svelte/transition';
+    import {cubicIn} from 'svelte/easing';
+
+    import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
     import viewport from '$stores/viewport.js'
 
 	import {
@@ -13,7 +16,7 @@
     export let columnItems;
     export let experienceStarted;
 
-    let dropTargetStyle = {outline: 'rgba(255, 0, 0, 1) solid 2px'};
+    let dropTargetStyle = {};
 
     const flipDurationMs = 200;
     function handleDndConsiderColumns(e) {
@@ -23,6 +26,7 @@
         columnItems = e.detail.items;
     }
     function handleDndConsiderCards(cid, e) {
+
         const colIdx = columnItems.findIndex(c => c.id === cid);
         columnItems[colIdx].items = e.detail.items;
         columnItems = [...columnItems];
@@ -38,11 +42,16 @@
     }
 
     function transformDraggedElement(draggedEl, data, index) {
-        console.log(draggedEl,data)
-		// const msg = `My index is ${index}`;
-        draggedEl.classList.add("dragging-artist");
+        // draggedEl.style.transform = "rotate(10deg)";
 
-		draggedEl.innerHTML = "helloo";
+        // console.log(draggedEl,data)
+		// const msg = `My index is ${index}`;
+        // draggedEl.classList.add("dragging-artist");
+        // draggedEl.style.display = 'none';
+        // draggedEl.style.visibility = 'hidden';
+        // draggedEl.style.background = 'rgba(0,0,0,0)';
+
+		// draggedEl.innerHTML = `<div class='money' style='width:20px, height:20px; background:red;'>hiiiii</div>`;
 	}
 </script>
 
@@ -54,30 +63,88 @@
 <section
     class="board"
     class:experienceStarted
-    use:dndzone={{items:columnItems, flipDurationMs, type:'columns',transformDraggedElement}}
-    on:consider={handleDndConsiderColumns}
-    on:finalize={handleDndFinalizeColumns}
     style="height:{$viewport.height}px;"
 >
     {#each columnItems as column (column.id)}
         <div class="column {column.id == 0 ? "column-artists" : 'column-gen'}"
              animate:flip="{{duration: flipDurationMs}}">
-            <div class="column-content" use:dndzone={{centreDraggedOnCursor:true,items:column.items, flipDurationMs,dropTargetStyle:dropTargetStyle, transformDraggedElement}}
-                 on:consider={(e) => handleDndConsiderCards(column.id, e)} on:finalize={(e) => handleDndFinalizeCards(column.id, e)}>
+            <div class="column-content"
+                use:dndzone={{
+                    centreDraggedOnCursor:true,
+                    items:column.items,
+                    flipDurationMs,
+                    morphDisabled:true,
+                    transformDraggedElement,
+                    dropTargetStyle:dropTargetStyle,
+                }}
+                on:consider={(e) => handleDndConsiderCards(column.id, e)}
+                on:finalize={(e) => handleDndFinalizeCards(column.id, e)}
+            >
                 {#each column.items as item (item.id)}
-                    <div class="card" animate:flip="{{duration: flipDurationMs}}" on:click={handleClick(item)}>
-                        {item.name}
-                    </div>
+                <!-- data-is-dnd-shadow-item-hint={item[SHADOW_ITEM_MARKER_PROPERTY_NAME]}  -->
+                    <!-- <div class="card" data-id={item.id} animate:flip="{{duration: flipDurationMs}}" on:click={handleClick(item)}> -->
+                        <div class="card-container" animate:flip="{{duration: flipDurationMs}}" on:click={handleClick(item)}>
+                            <div class="card" on:click={handleClick}>
+                                {#if item[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
+                                    <div in:fade={{duration:200, easing: cubicIn}} class='custom-shadow-item'><span>{item.name}</span></div>
+                                {/if}
+                            </div>
+                        </div>
+                        <!-- <span>{item.name}</span> -->
+                    <!-- </div> -->
                 {/each}
+
             </div>
-            <div class="column-title">{column.name}</div>
+            {#if column.id > 0}
+                <div class="column-title"><span>{column.name}</span></div>
+            {/if}
         </div>
     {/each}
 </section>
 
 <style>
 
-    
+    :global(#dnd-action-dragged-el .card) {
+		width: 40px;
+		height: 40px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 50%;
+        margin: 0 auto;
+        transform: translate(0,-50%);
+		transition: width 1s;
+	}
+
+    .custom-shadow-item {
+		position: absolute;
+		top: 0; left:0; right: 0; bottom: 0;
+		visibility: visible;
+        /* width: 100px; */
+        /* height: 100px; */
+		border: 1px dashed grey;
+		background: #6979a8;
+		opacity: 0.4;
+		margin: 0;
+        display: block;
+        /* height: 70px; */
+        /* width: 70px; */
+        /* position: relative; */
+        /* padding: 2rem 2rem; */
+        
+        /* margin: 0.4em 0; */
+        /* display: flex; */
+        /* margin-left: 10px; */
+        /* justify-content: center; */
+        /* align-items: center; */
+        /* background-color: #dddddd; */
+        border-radius: 8%;
+
+	}
+
+    .custom-shadow-item * {
+        display: none;
+    }
 
     .board {
         width: 700px;
@@ -88,6 +155,7 @@
         margin: 0 auto;
         align-content: flex-start;
         flex-direction: row;
+        padding-top: 50px;
     }
     .column {
         margin: 0 auto;
@@ -104,7 +172,6 @@
     .column-content {
 
         /* Notice that the scroll container needs to be the dndzone if you want dragging near the edge to trigger scrolling */
-        overflow-y: scroll;
         flex-direction: row;
         display: flex;
     }
@@ -112,61 +179,101 @@
 
     .column-artists .column-content {
         flex-direction: column;
-    }
-
-    .column-gen {
-        padding: 1%;
-    }
-
-     
+        background-color: rgba(255,255,255,.2);
+        padding: 20px;
+        border-radius: 14px;
+    }     
 
     .column-gen .column-content {
-        height: 120px;
+        height: 100%;
         background-color: rgba(255,255,255,.2);
         border-top-right-radius: 20px;
         border-bottom-right-radius: 20px;
+        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: calc(33.333% - 3.33px) calc(33.333% - 3.33px) calc(33.333% - 3.33px);
+        gap: 5px;
+        width: 100%;
+        padding: 12px;
+        position: relative;
+        overflow: hidden;
+        overflow-y: scroll;
+
     }
     .column-title {
         display: flex;
+        flex-direction: column;
         font-weight: 600;
         justify-content: center;
+        padding-bottom: 5px;
         align-items: center;
         font-size: 16px;
-        margin-top: 7px;
+        justify-content: flex-end;
+        margin-top: 10px;
         position: absolute;
         pointer-events: none;
-        bottom: 0;
+        bottom: 0px;
         left: 0;
         right: 0;
+        background: linear-gradient(0deg, #c4c9e2 50%, transparent 100%);
+        z-index: 100000;
+        height: 40px;
+
     }
     .column-artists {
         width: 100%;
         width: 200px;
         height: 200px;
         order: 3;
-        background-color: rgba(255,255,255,.2);
-        padding: 20px;
         border-radius: 14px;
     }
-    .card {
-        height: 70px;
-        width: 70px;
-        margin: 0.4em 0;
-        display: flex;
-        margin-left: 10px;
-        justify-content: center;
-        align-items: center;
-        background-color: #dddddd;
-        border-radius: 14px;
+
+    .card-container {
+        width: 100px;
+        position: relative;
     }
-    .column-artists .card {
-        margin: 0;
+
+    .column-artists .card-container {
+        width: 100%;
+        aspect-ratio: 1 / 1;
         margin-bottom: 10px;
+    }
+
+    .column-gen .card-container {
+        /* width: 70px; */
+        /* height: 70px; */
+        /* margin-left: 10px; */
+        /* margin-top: 10px; */
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        grid-column: auto / span 1;
+    }
+
+    .card-container .card {
+        width: 100%;
+        height: 100%;
+    }
+
+    .card {
+        position: absolute;
+        background-image: url('assets/image.jpg');
+        background-size: cover;
+        left: 0;
+        right: 0;
+        top: 50%;
+        margin: 0 auto;
+        transform: translate(0,-50%);
+		transition: width 1s;
+        background-color: #dddddd;
+        border-radius: 8%;
     }
     .column-gen {
         opacity: 0;
         order: 2;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
     }
+
     .experienceStarted .column-gen{
         opacity: 1;
     }
