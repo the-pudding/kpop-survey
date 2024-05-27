@@ -256,7 +256,7 @@
 
     .card {
         position: absolute;
-        background-image: url('assets/image.jpg');
+        background-image: url('image.jpg');
         background-size: cover;
         left: 0;
         right: 0;
