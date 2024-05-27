@@ -3,6 +3,7 @@
     import { flip } from 'svelte/animate';
     import { fade } from 'svelte/transition';
     import {cubicIn} from 'svelte/easing';
+	import { base } from "$app/paths";
 
     import { dndzone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
     import viewport from '$stores/viewport.js'
@@ -83,8 +84,14 @@
                 {#each column.items as item (item.id)}
                 <!-- data-is-dnd-shadow-item-hint={item[SHADOW_ITEM_MARKER_PROPERTY_NAME]}  -->
                     <!-- <div class="card" data-id={item.id} animate:flip="{{duration: flipDurationMs}}" on:click={handleClick(item)}> -->
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <!-- svelte-ignore a11y-no-static-element-interactions -->
                         <div class="card-container" animate:flip="{{duration: flipDurationMs}}" on:click={handleClick(item)}>
-                            <div class="card" on:click={handleClick}>
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <!-- svelte-ignore a11y-no-static-element-interactions -->
+                            <div class="card" on:click={handleClick}
+                            style="background-image: url({base}/assets/image.jpg);"
+                            >
                                 {#if item[SHADOW_ITEM_MARKER_PROPERTY_NAME]}
                                     <div in:fade={{duration:200, easing: cubicIn}} class='custom-shadow-item'><span>{item.name}</span></div>
                                 {/if}
@@ -256,7 +263,6 @@
 
     .card {
         position: absolute;
-        background-image: url('image.jpg');
         background-size: cover;
         left: 0;
         right: 0;
