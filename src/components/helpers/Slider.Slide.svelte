@@ -9,6 +9,9 @@
 	$: height = $dir === "vertical" ? `${$h}px` : "100%";
 	$: visible = index === $cur;
 	$: disable = !visible;
+
+$: console.log($w)
+
 </script>
 
 <div

@@ -11,8 +11,8 @@
 	export let directions = ["left", "right"];
 	export let size = "64px";
 	export let arrowSize = "48px";
-	export let arrowStroke = "#000";
-	export let arrowStrokeWidth = "2";
+	export let arrowStroke = "rgba(120, 120, 120, 1)";
+	export let arrowStrokeWidth = "3";
 	export let arrowPosition = "center"; // start, center, end
 
 	const dispatch = createEventDispatcher();
@@ -50,10 +50,11 @@
 			disabled={disable.includes(dir)}
 		>
 			{#if visibleArrows.includes(dir)}
-				<span style="font-size: {arrowSize};">
+				<span class="arrows" style="font-size: {arrowSize};">
 					{#if dir === "left"}
 						<ChevronLeft color={arrowStroke} strokeWidth={arrowStrokeWidth} />
 					{:else if dir === "right"}
+						<span class="next">Next</span>
 						<ChevronRight color={arrowStroke} strokeWidth={arrowStrokeWidth} />
 					{/if}
 				</span>
@@ -63,6 +64,19 @@
 </section>
 
 <style>
+	.arrows {
+		margin: 0;
+		align-self: flex-end;
+		padding-bottom: 100px;
+		display: flex;
+	}
+	.next {
+		font-size: 24px;
+		letter-spacing: -.5px;
+		color: rgba(120, 120, 120, 1);
+		line-height: 0.9;
+		margin-right: 5px;
+	}
 	section {
 		position: fixed;
 		top: 0;
@@ -83,6 +97,9 @@
 		box-shadow: none;
 		pointer-events: auto;
 		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: flex-end;
 	}
 
 	button:disabled {
@@ -91,13 +108,18 @@
 	}
 
 	button:hover {
-		background-color: rgba(255, 255, 255, 0.2);
+		/* background-color: rgba(255, 255, 255, 0.2); */
 	}
 
 	.left {
 		left: 0;
 		top: 0;
+		
 		/* text-align: left; */
+	}
+
+	.left .arrows {
+		align-self: flex-start;
 	}
 
 	.right {
@@ -181,7 +203,7 @@
 	span {
 		display: inline-block;
 		line-height: 1;
-		opacity: 0.5;
+		opacity: 1;
 	}
 
 	.debug .left {

@@ -17,7 +17,7 @@
     export let columnItems;
     export let experienceStarted;
 
-    let dropTargetStyle = {};
+    let dropTargetStyle = {outline: 'red solid 2px'};
 
     const flipDurationMs = 200;
     function handleDndConsiderColumns(e) {
@@ -67,7 +67,7 @@
     style="height:{$viewport.height}px;"
 >
     {#each columnItems as column (column.id)}
-        <div class="column {column.id == 0 ? "column-artists" : 'column-gen'}"
+        <div class="column column-{column.id} {column.id == 0 ? "column-artists" : 'column-gen'}"
              animate:flip="{{duration: flipDurationMs}}">
             <div class="column-content"
                 use:dndzone={{
@@ -103,7 +103,7 @@
 
             </div>
             {#if column.id > 0}
-                <div class="column-title"><span>{column.name}</span></div>
+                <div class="column-title"><p>{column.name}</p></div>
             {/if}
         </div>
     {/each}
@@ -154,7 +154,7 @@
     }
 
     .board {
-        width: 700px;
+        width: 100%;
         padding: 0.5em;
         margin-bottom: 40px;
         display: flex;
@@ -166,15 +166,34 @@
     }
     .column {
         margin: 0 auto;
-        width: 30%;
+        width: calc(20% - 10px);
         /* height: 200px; */
         max-width: 700px;
-        height: 150px;
+        /* height: 150px; */
         position: relative;
-        
         /*Notice we make sure this container doesn't scroll so that the title stays on top and the dndzone inside is scrollable*/
         overflow-y: hidden;
-        margin-bottom: 20px;
+        aspect-ratio: .8;
+    }
+
+    .column-6 {
+        width: 100%;
+    }
+
+    .column-6.column-gen .column-content {
+        background: none;
+    }
+
+    .column-6 .column-title {
+        font-size: 18px;
+        color: rgba(132, 132, 132, 1);
+        font-weight: 400;
+        background: none;
+        top: 0;
+        transform: translate(0,100%);
+        width: fit-content;
+        display: inline-block;
+        border-bottom: 1px solid;
     }
     .column-content {
 
@@ -189,13 +208,14 @@
         background-color: rgba(255,255,255,.2);
         padding: 20px;
         border-radius: 14px;
+        width: 200px;
+        margin: 0 auto;
     }     
 
     .column-gen .column-content {
         height: 100%;
-        background-color: rgba(255,255,255,.2);
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
+        background-color: rgba(227, 225, 225, 1);
+        border-radius: 10px;
         flex-wrap: wrap;
         display: grid;
         grid-template-columns: calc(33.333% - 3.33px) calc(33.333% - 3.33px) calc(33.333% - 3.33px);
@@ -208,31 +228,28 @@
 
     }
     .column-title {
-        display: flex;
-        flex-direction: column;
         font-weight: 600;
-        justify-content: center;
-        padding-bottom: 5px;
-        align-items: center;
         font-size: 16px;
-        justify-content: flex-end;
-        margin-top: 10px;
-        position: absolute;
         pointer-events: none;
-        bottom: 0px;
+        z-index: 100000;
+        position: absolute;
         left: 0;
         right: 0;
-        background: linear-gradient(0deg, #c4c9e2 50%, transparent 100%);
-        z-index: 100000;
-        height: 40px;
+        margin: 0 auto;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
 
+    .column-title p {
+        margin: 0;
+        text-align: center;
     }
     .column-artists {
         width: 100%;
-        width: 200px;
         height: 200px;
-        order: 3;
+        order: 1;
         border-radius: 14px;
+        margin-bottom: 50px;
     }
 
     .card-container {
@@ -274,10 +291,8 @@
         border-radius: 8%;
     }
     .column-gen {
-        opacity: 0;
+        opacity: 1;
         order: 2;
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
     }
 
     .experienceStarted .column-gen{
