@@ -66,9 +66,12 @@
     class:experienceStarted
     style="height:{$viewport.height}px;"
 >
+    <p>{columnItems[0].items[0].name}</p>
+    <p>Debuted in {columnItems[0].items[0]["debut year"]} with YG and their most-streamed song is {columnItems[0].items[0]["debut song"]}</p>
+    <!-- <p>{JSON.stringify(columnItems[0].items[0])}</p> -->
+
     {#each columnItems as column (column.id)}
-        <div class="column column-{column.id} {column.id == 0 ? "column-artists" : 'column-gen'}"
-             animate:flip="{{duration: flipDurationMs}}">
+        <div class="column column-{column.id} {column.id == 0 ? "column-artists" : 'column-gen'}">
             <div class="column-content"
                 use:dndzone={{
                     centreDraggedOnCursor:true,
@@ -81,12 +84,20 @@
                 on:consider={(e) => handleDndConsiderCards(column.id, e)}
                 on:finalize={(e) => handleDndFinalizeCards(column.id, e)}
             >
-                {#each column.items as item (item.id)}
+                {#each column.items as item, i (item.id)}
+                    {@const count = i}
+                    {@const length = column.items.length}
                 <!-- data-is-dnd-shadow-item-hint={item[SHADOW_ITEM_MARKER_PROPERTY_NAME]}  -->
                     <!-- <div class="card" data-id={item.id} animate:flip="{{duration: flipDurationMs}}" on:click={handleClick(item)}> -->
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-no-static-element-interactions -->
-                        <div class="card-container" animate:flip="{{duration: flipDurationMs}}" on:click={handleClick(item)}>
+                        <div 
+                            class="card-container count-{i}" 
+                            style="
+                                --count:{length - i};
+                            "
+                            animate:flip="{{duration: flipDurationMs}}"
+                            on:click={handleClick(item)}>
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
                             <!-- svelte-ignore a11y-no-static-element-interactions -->
                             <div class="card" on:click={handleClick}
@@ -104,6 +115,9 @@
             </div>
             {#if column.id > 0}
                 <div class="column-title"><p>{column.name}</p></div>
+            {/if}
+            {#if column.id == 0}
+                <p class="which">Which Generation?</p>
             {/if}
         </div>
     {/each}
@@ -168,7 +182,6 @@
         margin: 0 auto;
         width: calc(20% - 10px);
         /* height: 200px; */
-        max-width: 700px;
         /* height: 150px; */
         position: relative;
         /*Notice we make sure this container doesn't scroll so that the title stays on top and the dndzone inside is scrollable*/
@@ -202,15 +215,18 @@
         display: flex;
     }
 
+    .which {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 24px;
+        color: rgba(120, 120, 120, 1);
+        letter-spacing: -.5px;
+        font-weight: 300;
+    }
 
-    .column-artists .column-content {
-        flex-direction: column;
-        background-color: rgba(255,255,255,.2);
-        padding: 20px;
-        border-radius: 14px;
-        width: 200px;
-        margin: 0 auto;
-    }     
+
+  
 
     .column-gen .column-content {
         height: 100%;
@@ -246,10 +262,10 @@
     }
     .column-artists {
         width: 100%;
-        height: 200px;
+        height: 250px;
         order: 1;
         border-radius: 14px;
-        margin-bottom: 50px;
+        padding-bottom: 50px;
     }
 
     .card-container {
@@ -257,10 +273,27 @@
         position: relative;
     }
 
+    .column-artists .column-content {
+        flex-direction: column;
+        background-color: rgba(255,255,255,.2);
+        padding: 20px;
+        border-radius: 14px;
+        width: 200px;
+        margin: 0 auto;
+        position: relative;
+    }   
+
     .column-artists .card-container {
-        width: 100%;
+        width: calc(100% - calc(1px * var(--count)));
         aspect-ratio: 1 / 1;
         margin-bottom: 10px;
+        position: absolute;
+        top: 20px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        background-color: red;
+        transform: translate(0,calc(-1px * var(--count)));
     }
 
     .column-gen .card-container {
