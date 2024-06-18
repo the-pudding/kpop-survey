@@ -1,7 +1,7 @@
 <script>
 	// This is done in a single file for clarity. A more factored version here: https://svelte.dev/repl/288f827275db4054b23c437a572234f6?version=3.38.2
     import { flip } from 'svelte/animate';
-    import { fade } from 'svelte/transition';
+    import { fade, fly } from 'svelte/transition';
     import {cubicIn} from 'svelte/easing';
 	import { base } from "$app/paths";
 
@@ -14,12 +14,29 @@
 	} from "$utils/supabase.js";
 	import { addToGen } from '../utils/supabase';
 
-    export let columnItems;
+    export let data;
     export let experienceStarted;
 
+
     let dropTargetStyle = {outline: 'red solid 2px'};
+    dropTargetStyle = {};
+
 
     const flipDurationMs = 200;
+    
+    let columnItems = [];
+    let resetData = [];
+    
+    data.forEach(d => {
+        resetData.push(d);
+        columnItems.push(d);
+    })
+
+    $: console.log(columnItems)
+
+
+
+
     function handleDndConsiderColumns(e) {
         columnItems = e.detail.items;
     }
@@ -54,25 +71,47 @@
 
 		// draggedEl.innerHTML = `<div class='money' style='width:20px, height:20px; background:red;'>hiiiii</div>`;
 	}
+
+    function runClick(id){
+        columnItems[id].items.push(columnItems[0].items[columnItems[0].items.length - 1])
+        columnItems[0].items.pop()
+        columnItems = [...columnItems];
+    }
 </script>
 
 <!-- <svg width="35" height="38" viewBox="0 0 35 38" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M25.0889 35.8779C21.984 37.016 19.0524 37.1458 16.2939 36.2676C13.5355 35.3893 10.9688 33.5153 8.59375 30.6455L2.35938 23.1123C2.16146 22.8649 1.96973 22.5866 1.78418 22.2773C1.611 21.9557 1.47493 21.6589 1.37598 21.3867C1.01725 20.4219 1.06673 19.556 1.52441 18.7891C1.9821 18.0098 2.64388 17.4655 3.50977 17.1562C4.14062 16.9336 4.7653 16.9089 5.38379 17.082C6.00228 17.2428 6.58366 17.6077 7.12793 18.1768L9.24316 20.459C9.30501 20.5332 9.36068 20.5579 9.41016 20.5332C9.49674 20.4961 9.52767 20.4281 9.50293 20.3291L4.25195 5.91211C3.85612 4.79883 3.86849 3.77832 4.28906 2.85059C4.72201 1.92285 5.47038 1.26107 6.53418 0.865234C7.57324 0.494141 8.55046 0.53125 9.46582 0.976562C10.3936 1.40951 11.0615 2.1888 11.4697 3.31445L13.5293 8.99219C13.9128 8.73242 14.29 8.52832 14.6611 8.37988C15.4281 8.10775 16.1579 8.07682 16.8506 8.28711C17.5557 8.48503 18.1494 8.89323 18.6318 9.51172C19.0895 9.15299 19.5658 8.88704 20.0605 8.71387C20.7904 8.44173 21.4769 8.39844 22.1201 8.58398C22.7757 8.75716 23.3262 9.12826 23.7715 9.69727C25.4043 9.12826 26.8825 9.24577 28.2061 10.0498C29.5296 10.8415 30.5625 12.2516 31.3047 14.2803L32.7148 18.1582C33.7168 20.9043 34.057 23.4525 33.7354 25.8027C33.4137 28.1406 32.5169 30.1816 31.0449 31.9258C29.5729 33.6576 27.5876 34.9749 25.0889 35.8779ZM24.2725 33.3359C26.3258 32.5814 27.9339 31.5052 29.0967 30.1074C30.2718 28.7096 30.9583 27.0521 31.1562 25.1348C31.3665 23.2051 31.0511 21.0775 30.21 18.752L29.0039 15.4678C28.4967 14.1071 27.903 13.1299 27.2227 12.5361C26.5423 11.9424 25.8249 11.7816 25.0703 12.0537L25.7754 14.0205C25.8867 14.3421 25.8682 14.6514 25.7197 14.9482C25.5837 15.2327 25.3672 15.4245 25.0703 15.5234C24.7611 15.6471 24.4518 15.6533 24.1426 15.542C23.8333 15.4183 23.6169 15.1895 23.4932 14.8555L22.5098 12.1279C22.349 11.6826 22.0954 11.3734 21.749 11.2002C21.415 11.0146 21.0378 11.0023 20.6172 11.1631C20.2461 11.3115 19.9368 11.5094 19.6895 11.7568L20.8584 15.0596C20.9821 15.3812 20.9697 15.6842 20.8213 15.9688C20.6729 16.2533 20.444 16.4512 20.1348 16.5625C19.8379 16.6738 19.5348 16.6676 19.2256 16.5439C18.9163 16.4202 18.7061 16.1914 18.5947 15.8574L17.1104 11.8125C16.9495 11.3548 16.696 11.0456 16.3496 10.8848C16.0156 10.7116 15.6445 10.7054 15.2363 10.8662C15.0508 10.9157 14.8776 10.9961 14.7168 11.1074C14.556 11.2188 14.4076 11.3301 14.2715 11.4414L15.96 16.0615C16.0837 16.3831 16.0713 16.6924 15.9229 16.9893C15.7744 17.2738 15.5456 17.4655 15.2363 17.5645C14.9395 17.7005 14.6364 17.7067 14.3271 17.583C14.0179 17.4469 13.8014 17.2181 13.6777 16.8965L8.9834 4.01953C8.87207 3.64844 8.66178 3.38867 8.35254 3.24023C8.04329 3.0918 7.71549 3.07943 7.36914 3.20312C7.02279 3.33919 6.77539 3.56803 6.62695 3.88965C6.47852 4.19889 6.47233 4.52669 6.6084 4.87305L13.2139 22.9824C13.3623 23.403 13.3623 23.7865 13.2139 24.1328C13.0654 24.4792 12.7995 24.7204 12.416 24.8564C12.1068 24.9801 11.7852 25.0111 11.4512 24.9492C11.1296 24.875 10.7894 24.6523 10.4307 24.2812L6.10742 19.8281C5.625 19.321 5.13021 19.1602 4.62305 19.3457C4.27669 19.4694 4.03548 19.6797 3.89941 19.9766C3.77572 20.2611 3.76953 20.5518 3.88086 20.8486C3.97982 21.1084 4.12826 21.3434 4.32617 21.5537L10.542 29.0312C12.6943 31.6165 14.9085 33.1999 17.1846 33.7812C19.473 34.375 21.8356 34.2266 24.2725 33.3359Z" fill="white"/>
     </svg> -->
     
-
+{#if columnItems}
 <section
     class="board"
     class:experienceStarted
     style="height:{$viewport.height}px;"
 >
-    <p>{columnItems[0].items[0].name}</p>
-    <p>Debuted in {columnItems[0].items[0]["debut year"]} with YG and their most-streamed song is {columnItems[0].items[0]["debut song"]}</p>
     <!-- <p>{JSON.stringify(columnItems[0].items[0])}</p> -->
 
     {#each columnItems as column (column.id)}
+
+        {#if column.id == 0}
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <div>
+                <p class="count">{column.items[column.items.length - 1].artistId} of {column.items[0].artistId}</p>
+                <p class="artist-name" transition:fly={{ y:20, duration:500 }}>{column.items[column.items.length - 1].name}</p>
+                <p class="description" transition:fly={{ y:20, duration:500 }}>Debuted in {column.items[0]["debut year"]} with YG and their most-streamed song is {columnItems[0].items[0]["debut song"]}</p>    
+            </div>
+            
+        {/if}
+
         <div class="column column-{column.id} {column.id == 0 ? "column-artists" : 'column-gen'}">
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+
+
+
             <div class="column-content"
+                on:click={() => runClick(column.id)}
                 use:dndzone={{
                     centreDraggedOnCursor:true,
                     items:column.items,
@@ -85,17 +124,22 @@
                 on:finalize={(e) => handleDndFinalizeCards(column.id, e)}
             >
                 {#each column.items as item, i (item.id)}
-                    {@const count = i}
                     {@const length = column.items.length}
+
                 <!-- data-is-dnd-shadow-item-hint={item[SHADOW_ITEM_MARKER_PROPERTY_NAME]}  -->
                     <!-- <div class="card" data-id={item.id} animate:flip="{{duration: flipDurationMs}}" on:click={handleClick(item)}> -->
                         <!-- svelte-ignore a11y-click-events-have-key-events -->
                         <!-- svelte-ignore a11y-no-static-element-interactions -->
                         <div 
-                            class="card-container count-{i}" 
+                            class="card-container count-{length - i} {length - i > 3 ? "bottom-cards" : ''} {length - i == 1 ? 'top-card' : ''}" 
                             style="
                                 --count:{length - i};
                             "
+
+                   
+                
+
+                            data-artist={item.name}
                             animate:flip="{{duration: flipDurationMs}}"
                             on:click={handleClick(item)}>
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -122,6 +166,7 @@
         </div>
     {/each}
 </section>
+{/if}
 
 <style>
 
@@ -136,6 +181,35 @@
         transform: translate(0,-50%);
 		transition: width 1s;
 	}
+
+    .count {
+        color: rgba(120, 120, 120, 1);
+        font-size: 14px;
+        margin: 0;
+        font-weight: 500;
+        -webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+        margin-bottom: 20px;
+        margin-left: 2px;
+    }
+
+    .artist-name, .description, .which {
+        font-size: 24px;
+        color: #000;
+        font-weight: 400;
+        letter-spacing: -.8px;
+        margin: 0;
+        line-height: 1.3;
+    }
+
+    .which, .description {
+        color: rgba(120, 120, 120, 1);
+        -webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-rendering: optimizeLegibility;
+        margin-bottom: 50px;
+    }
 
     .custom-shadow-item {
 		position: absolute;
@@ -169,14 +243,12 @@
 
     .board {
         width: 100%;
-        padding: 0.5em;
         margin-bottom: 40px;
         display: flex;
         flex-wrap: wrap;
         margin: 0 auto;
         align-content: flex-start;
         flex-direction: row;
-        padding-top: 50px;
     }
     .column {
         margin: 0 auto;
@@ -217,12 +289,9 @@
 
     .which {
         position: absolute;
-        bottom: 0;
+        bottom: 20px;
         left: 0;
-        font-size: 24px;
-        color: rgba(120, 120, 120, 1);
-        letter-spacing: -.5px;
-        font-weight: 300;
+        margin: 0;
     }
 
 
@@ -233,14 +302,14 @@
         background-color: rgba(227, 225, 225, 1);
         border-radius: 10px;
         flex-wrap: wrap;
-        display: grid;
-        grid-template-columns: calc(33.333% - 3.33px) calc(33.333% - 3.33px) calc(33.333% - 3.33px);
-        gap: 5px;
+        /* display: grid; */
+        /* grid-template-columns: calc(33.333% - 3.33px) calc(33.333% - 3.33px) calc(33.333% - 3.33px); */
+        /* gap: 5px; */
         width: 100%;
-        padding: 12px;
         position: relative;
         overflow: hidden;
         overflow-y: scroll;
+        cursor: pointer;
 
     }
     .column-title {
@@ -262,7 +331,7 @@
     }
     .column-artists {
         width: 100%;
-        height: 250px;
+        height: 300px;
         order: 1;
         border-radius: 14px;
         padding-bottom: 50px;
@@ -284,7 +353,7 @@
     }   
 
     .column-artists .card-container {
-        width: calc(100% - calc(1px * var(--count)));
+        width: calc(100% - calc(5px * var(--count)));
         aspect-ratio: 1 / 1;
         margin-bottom: 10px;
         position: absolute;
@@ -292,8 +361,17 @@
         left: 0;
         right: 0;
         margin: 0 auto;
-        background-color: red;
-        transform: translate(0,calc(-1px * var(--count)));
+        /* background-color: red; */
+        transform: translate(0,calc(-5px * var(--count)));
+        opacity: .5;
+    }
+
+    .column-artists .top-card {
+        opacity: 1;
+    }
+
+    .column-artists .bottom-cards {
+        opacity: 0;
     }
 
     .column-gen .card-container {

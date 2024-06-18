@@ -2,7 +2,6 @@
 	import { getContext } from "svelte";
 	import { onMount } from "svelte";
 	import { fly } from 'svelte/transition';
-	import artists from "$data/artists.csv"
 	import Intro from "$components/Intro.svelte";
 	import copy from "$data/copy.json";
 	import Slider from "$components/helpers/Slider.svelte";
@@ -16,6 +15,8 @@
     	experienceStarted = event.detail.started;
   	}
 
+	export let artists;
+
 	let sliderEl;
 	let activeSlide = 0;
 	let dir;
@@ -28,7 +29,7 @@
 		{
 			id: 0,
 			name: "artists",
-			items: artists//.slice(0,2)
+			items: artists.reverse()//.slice(0,2)
 		},
 		{
 			id: 1,
@@ -110,8 +111,9 @@
 					{/each}
 					
 				{:else if type == "voting"}
-					<Board {experienceStarted} columnItems={board}></Board>
-
+					{#if isActive && board}
+						<Board {experienceStarted} data={board}></Board>
+					{/if}
 				{/if}
 			</Slide>
 

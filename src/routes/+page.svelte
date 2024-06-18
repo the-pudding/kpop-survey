@@ -1,12 +1,15 @@
 <script>
-	import { setContext } from "svelte";
+	import { setContext, onMount } from "svelte";
 	import { browser } from "$app/environment";
 	import Meta from "$components/Meta.svelte";
 	import Index from "$components/Index.svelte";
 	import copy from "$data/copy.json";
 	import version from "$utils/version.js";
+	import artists from "$data/artists.csv"
 
 	export let data;
+	let mounted = false;;
+	let artistsMunged;
 
 	version();
 
@@ -20,7 +23,20 @@
 	const { title, description, url, keywords } = copy;
 	setContext("copy", copy);
 	setContext("data", data.data);
+
+	onMount(() => {
+		artists.forEach(d => {
+			d.artistId = d.id;
+		})
+		mounted = true;
+	})
+
 </script>
 
+
+
 <Meta {title} {description} {url} {preloadFont} {keywords} />
-<Index />
+
+{#if mounted}
+	<Index {artists} />
+{/if}
