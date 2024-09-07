@@ -10,8 +10,6 @@
 	$: visible = index === $cur;
 	$: disable = !visible;
 
-$: console.log($w)
-
 </script>
 
 <div
