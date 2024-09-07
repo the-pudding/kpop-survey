@@ -155,7 +155,7 @@
 {/if}
 
 <!-- <WIP /> -->
-<!-- <Demo /> -->
+
 <!-- <Footer /> -->
 
 <style lang="scss">
