@@ -1,5 +1,6 @@
 <script>
 	import { isMobile } from "../stores/misc.js";
+	import { base } from "$app/paths";
 
 	let isReady = false;
 
@@ -46,7 +47,7 @@
 <div id="intro-gallery">
 	{#each images as { src, index, position }}
 		<img
-			{src}
+			src="{base}{src}"
 			data-index={index}
 			alt=""
 			style="--top: {position.top || 'auto'}; --right: {position.right ||
