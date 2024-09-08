@@ -127,6 +127,7 @@ Usage:
 		padding: 0;
 		z-index: 1;
 		overflow: hidden;
+		overflow-y: scroll;
 	}
 
 	.slides {
