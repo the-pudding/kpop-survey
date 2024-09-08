@@ -170,7 +170,8 @@
 	article {
 		position: absolute;
 		width: 100vw;
-		height: 100vh;
+		height: 100%;
+		min-height: 100vh;
 		// padding: 1rem;
 		z-index: 3;
 	}

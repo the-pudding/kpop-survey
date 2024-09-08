@@ -36,10 +36,10 @@
 		max-width: 800px;
 		margin: 0 auto;
 		display: flex;
-		flex-wrap: wrap;
 		margin: 0 auto;
 		align-content: flex-start;
 		flex-direction: column;
         margin-top: 100px;
+        margin-bottom: 100px;
 	}
 </style>

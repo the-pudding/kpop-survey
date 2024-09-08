@@ -73,6 +73,7 @@
 		&__controls__gens {
 			display: flex;
 			justify-content: center;
+            flex-wrap: wrap;
 			gap: 1rem;
 			margin: 0 auto;
 
@@ -84,6 +85,7 @@
 				color: white;
 				position: relative;
                 border: 2px solid white;
+       
 				&::after {
 					content: "";
 					width: 100%;
