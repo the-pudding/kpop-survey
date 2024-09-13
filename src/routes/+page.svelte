@@ -39,4 +39,5 @@
 
 {#if mounted}
 	<Index {artists} />
+	<!-- <Index artists={artists.slice(0, 4)} /> -->
 {/if}

@@ -3,7 +3,7 @@
 	export let maxArtistIndex;
 </script>
 
-<p class="count">{currentArtistIndex} of {maxArtistIndex}</p>
+<p class="count">{currentArtistIndex + 1} of {maxArtistIndex}</p>
 
 <style lang="scss">
 	.count {

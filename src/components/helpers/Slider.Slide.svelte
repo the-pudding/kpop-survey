@@ -4,6 +4,7 @@
 	const { dir, cur, w, h, count } = getContext("Slider");
 
 	export let index;
+	export let cls = ''
 
 	$: width = $dir === "horizontal" ? `${$w}px` : "100%";
 	$: height = $dir === "vertical" ? `${$h}px` : "100%";
@@ -14,7 +15,7 @@
 
 <div
 	id="slide-{index}"
-	class="slide"
+	class="slide {cls}"
 	class:visible
 	style:width
 	style:height

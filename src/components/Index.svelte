@@ -23,43 +23,10 @@
 
 	let inactive = [2];
 
-	let results = [
-		{
-			id: 0,
-			name: "I don't know",
-			items: []
-		},
-		{
-			id: 1,
-			name: "1st",
-			items: []
-		},
-		{
-			id: 2,
-			name: "2nd",
-			items: []
-		},
-		{
-			id: 3,
-			name: "3rd",
-			items: []
-		},
-		{
-			id: 4,
-			name: "4th",
-			items: []
-		},
-		{
-			id: 5,
-			name: "5th",
-			items: []
-		}
-	];
 
 
 	let experienceStarted = false;
 	let mounted = false;
-	let artistCount = 0;
 
 	const onTap = ({ detail }) => {
 		if (detail === "right") sliderEl.next();
@@ -70,7 +37,6 @@
 
 	onMount(async () => {
 		mounted = true;
-		console.log(copy);
 	});
 </script>
 
@@ -90,7 +56,7 @@
 				{@const isActive = idx == activeSlide ? true : false}
 				<!-- {#each allSlides as slide, i} -->
 
-				<Slide index={idx}>
+				<Slide index={idx} cls="{type == "voting" ? '' : 'vertical-center'}">
 					{#if type === "section"}
 						{#each props as text}
 							{#if isActive}
@@ -105,17 +71,16 @@
 						{/each}
 
 						{#if idx == 1 && isActive}
-						<!-- THIS IS THE COMPONENT -->
-								<IntroGallery/> 
+							<!-- THIS IS THE COMPONENT -->
+							<IntroGallery />
 						{/if}
 					{:else if type == "voting"}
-						{#if isActive && results}
-							<Board {experienceStarted} {results} artists={artists.reverse()}></Board>
+						{#if isActive}
+							<Board {experienceStarted} artists={artists.reverse()}
+							></Board>
 						{/if}
 					{/if}
 				</Slide>
-
-
 			{/each}
 		</Slider>
 
@@ -200,11 +165,12 @@
 		.slide {
 			display: flex;
 			justify-content: center;
-			align-items: center;
 			padding: 1rem;
 			text-align: center;
+
+			&.vertical-center {
+				align-items: center;
+			}
 		}
 	}
-
-
 </style>
