@@ -95,7 +95,7 @@
 				.checkbox-label {
 					background-color: #fff;
 					border: 2px solid #9c9c9c;
-					border-radius: 50%;
+					border-radius: 8%;
 					cursor: pointer;
 					display: inline-block;
 					height: 28px;
@@ -123,10 +123,10 @@
 					width: 0;
 					height: 0;
 
-					&:focus + .checkbox-label {
-						outline: 2px solid var(--accent-color);
-						outline-offset: 2px;
-					}
+					// &:focus + .checkbox-label {
+					// 	outline: 2px solid var(--accent-color);
+					// 	outline-offset: 2px;
+					// }
 
 					&:checked + .checkbox-label {
 						background-color: var(--accent-color);

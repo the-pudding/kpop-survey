@@ -1,9 +1,10 @@
 <script>
-	export let currentArtistIndex;
+	import { currentArtistIndex } from "$stores/misc";
+
 	export let maxArtistIndex;
 </script>
 
-<p class="count">{currentArtistIndex + 1} of {maxArtistIndex}</p>
+<p class="count">{$currentArtistIndex + 1} of {maxArtistIndex}</p>
 
 <style lang="scss">
 	.count {

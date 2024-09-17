@@ -2,17 +2,15 @@
 	import Counter from "./Board.Counter.svelte";
 	import Artist from "./Board.Artist.svelte";
 	import Voter from "./Board.Voter.svelte";
-	import Survey from "./Board.Survey.svelte"
+	import Survey from "./Board.Survey.svelte";
 	import viewport from "$stores/viewport.js";
+	import { currentArtistIndex } from "$stores/misc";
 
-	import { insert, readAll } from "$utils/supabase.js";
-	import { addToGen } from "$utils/supabase";
+
 
 	export let experienceStarted;
 
 	export let artists;
-
-	let currentArtistIndex = 0;
 
 	let results = [
 		{
@@ -49,28 +47,25 @@
 
 	let selectedFactors = [];
 
-	console.log(readAll())
-
-	$: currentArtist = artists?.[currentArtistIndex];
+	$: currentArtist = artists?.[$currentArtistIndex];
 
 	$: state = "voting";
 
-	$: if (currentArtistIndex > artists.length - 1) {
+	$: if ($currentArtistIndex > artists.length - 1) {
 		state = "survey";
 	}
 
-	$: console.log(state, currentArtist)
+	// $: console.log(state, currentArtist);
 </script>
 
 <section class="board" class:experienceStarted>
 	{#if state == "voting"}
-		<Counter {currentArtistIndex} maxArtistIndex={artists.length} />
-
+		<Counter maxArtistIndex={artists.length} />
 		<Artist artist={currentArtist} />
 
-		<Voter artist={currentArtist} bind:results bind:currentArtistIndex />
+		<Voter artist={currentArtist} bind:results  />
 	{:else if state == "survey"}
-		<Survey bind:selectedFactors/>
+		<Survey bind:selectedFactors />
 	{/if}
 </section>
 

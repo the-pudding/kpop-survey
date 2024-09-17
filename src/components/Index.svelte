@@ -11,19 +11,22 @@
 	import Board from "$components/Board/Board.svelte";
 	import IntroGallery from "./IntroGallery.svelte";
 
-	function handleStartEvent(event) {
-		experienceStarted = event.detail.started;
-	}
+	// utils
+
+
+	// function handleStartEvent(event) {
+	// 	experienceStarted = event.detail.started;
+	// }
 
 	export let artists;
+
+
 
 	let sliderEl;
 	let activeSlide = 0;
 	let dir;
 
 	let inactive = [2];
-
-
 
 	let experienceStarted = false;
 	let mounted = false;
@@ -56,7 +59,7 @@
 				{@const isActive = idx == activeSlide ? true : false}
 				<!-- {#each allSlides as slide, i} -->
 
-				<Slide index={idx} cls="{type == "voting" ? '' : 'vertical-center'}">
+				<Slide index={idx} cls={type == "voting" ? "" : "vertical-center"}>
 					{#if type === "section"}
 						{#each props as text}
 							{#if isActive}
@@ -76,8 +79,7 @@
 						{/if}
 					{:else if type == "voting"}
 						{#if isActive}
-							<Board {experienceStarted} artists={artists.reverse()}
-							></Board>
+							<Board {experienceStarted} artists={artists.reverse()}></Board>
 						{/if}
 					{/if}
 				</Slide>

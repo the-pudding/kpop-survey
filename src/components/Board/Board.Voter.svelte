@@ -1,20 +1,53 @@
 <script>
 	import { base } from "$app/paths";
+	import localStorage from "$utils/localStorage.js";
+	import {
+		userId,
+		currentArtistIndex,
+		isShowingToploader,
+		toploaderImageName
+	} from "$stores/misc";
+	import { addGenSurveyData } from "$utils/supabase";
+
 	export let results;
-	export let currentArtistIndex;
+
 	export let artist;
 
 	let [idk, ...gens] = results;
 
-	const handleVote = (id) => {
-		results[id].items.push(artist);
-		++currentArtistIndex;
+	const handleVote = (option) => {
+		// results[option.id].items.push(artist);
+
+		localStorage.set("currentArtistIndex", $currentArtistIndex);
+		let entry = {
+			created_at: new Date(),
+			artist_id: artist.id,
+			gen: option.id,
+			user_id: $userId
+		};
+		addGenSurveyData(entry);
+		let interval
+
+		clearInterval(interval)
+		
+		if (option.id) {
+			$isShowingToploader = true;
+			$toploaderImageName = option.name;
+	
+			interval = setTimeout(() => {
+				$isShowingToploader = false;
+				$toploaderImageName = undefined;
+				++$currentArtistIndex;
+			}, 1000);
+		} else {
+			++$currentArtistIndex;
+		}
 	};
 
 	const accents = ["#92BAFF", "#84F881", "#E05F89", "#565656", "#ECCA48"];
 </script>
 
-<div class="voter">
+<div class="voter" class:inactive={$isShowingToploader}>
 	<p class="which">Which generation?</p>
 	<div class="voter__controls">
 		<div class="voter__controls__gens">
@@ -22,7 +55,8 @@
 				<button
 					style:--toploader-url="url({base}/assets/toploaders/{option.name}.png)"
 					style:--color-accent={accents[i]}
-					on:click={() => handleVote(option.id)}>{option.name}</button
+					class:active={$toploaderImageName == option.name}
+					on:click={() => handleVote(option)}>{option.name}</button
 				>
 			{/each}
 		</div>
@@ -47,6 +81,11 @@
 	}
 
 	.voter {
+
+		&.inactive {
+			pointer-events: none;
+		}
+
 		&__controls {
 			text-align: left;
 			font-size: 24px;
@@ -73,7 +112,7 @@
 		&__controls__gens {
 			display: flex;
 			justify-content: center;
-            flex-wrap: wrap;
+			flex-wrap: wrap;
 			gap: 1rem;
 			margin: 0 auto;
 
@@ -84,8 +123,8 @@
 				border-radius: 8%;
 				color: white;
 				position: relative;
-                border: 2px solid white;
-       
+				border: 2px solid white;
+
 				&::after {
 					content: "";
 					width: 100%;
@@ -96,10 +135,10 @@
 					top: 0px;
 					left: 0px;
 				}
-                
+
 				transition: all 0.25s;
 
-				&:hover {
+				&:hover, &.active {
 					background: #fff;
 					color: #5f5f5f;
 					border: 2px solid var(--color-accent);

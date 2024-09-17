@@ -2,8 +2,11 @@
 	import { base } from "$app/paths";
 	import { CirclePlay } from "lucide-svelte";
 	import Player from "./Board.Player.svelte";
+	import { isShowingToploader, toploaderImageName } from "$stores/misc";
+	import { fade } from "svelte/transition";
+
 	export let artist;
-    export let currentArtistIndex;
+	export let currentArtistIndex;
 </script>
 
 <div class="artist">
@@ -15,6 +18,13 @@
 	</p>
 
 	<div class="artist__art">
+		{#if $isShowingToploader}
+			<div
+				in:fade={{ duration: 500 }}
+				class="toploader"
+				style:--toploader-url="url({base}/assets/toploaders/{$toploaderImageName}.png)"
+			></div>
+		{/if}
 		<img src="{base}/assets/images/{artist.id}.jpg" alt="" />
 	</div>
 </div>
@@ -56,9 +66,20 @@
 			max-width: 600px;
 			width: 100%;
 			margin: 2rem auto;
+			position: relative;
 
 			img {
 				width: 100%;
+			}
+
+			.toploader {
+				width: 100%;
+				height: 100%;
+				background-image: var(--toploader-url);
+				background-size: cover;
+				position: absolute;
+				top: 0;
+				left: 0;
 			}
 		}
 	}
