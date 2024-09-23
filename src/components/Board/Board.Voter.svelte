@@ -26,14 +26,14 @@
 			user_id: $userId
 		};
 		addGenSurveyData(entry);
-		let interval
+		let interval;
 
-		clearInterval(interval)
-		
+		clearInterval(interval);
+
 		if (option.id) {
 			$isShowingToploader = true;
 			$toploaderImageName = option.name;
-	
+
 			interval = setTimeout(() => {
 				$isShowingToploader = false;
 				$toploaderImageName = undefined;
@@ -51,8 +51,9 @@
 	<p class="which">Which generation?</p>
 	<div class="voter__controls">
 		<div class="voter__controls__gens">
-			{#each gens as option, i}
+			{#each gens as option, i (option)}
 				<button
+					key={option}
 					style:--toploader-url="url({base}/assets/toploaders/{option.name}.png)"
 					style:--color-accent={accents[i]}
 					class:active={$toploaderImageName == option.name}
@@ -66,24 +67,29 @@
 </div>
 
 <style lang="scss">
-	.which {
-		font-size: 24px;
-		font-weight: 400;
-		letter-spacing: -0.8px;
-		margin: 0;
-		line-height: 1.3;
-		text-align: left;
-		color: rgba(120, 120, 120, 1);
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-		text-rendering: optimizeLegibility;
-		margin-bottom: 50px;
-	}
-
 	.voter {
+		flex-shrink: 0;
 
 		&.inactive {
 			pointer-events: none;
+		}
+
+		.which {
+			font-size: 24px;
+			font-weight: 400;
+			letter-spacing: -0.8px;
+			margin: 0;
+			line-height: 1.3;
+			text-align: left;
+			color: rgba(120, 120, 120, 1);
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			text-rendering: optimizeLegibility;
+			margin-bottom: 1rem;
+
+			@media only screen and (max-width: 600px) {
+				font-size: 16px;
+			}
 		}
 
 		&__controls {
@@ -97,7 +103,6 @@
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
 			text-rendering: optimizeLegibility;
-			margin-bottom: 50px;
 
 			.idk {
 				background: none;
@@ -107,23 +112,35 @@
 				margin: 0px;
 				padding: 0px;
 				font-size: 18px;
+				@media only screen and (max-width: 600px) {
+					font-size: 16px;
+				}
 			}
 		}
 		&__controls__gens {
 			display: flex;
 			justify-content: center;
-			flex-wrap: wrap;
+			// flex-wrap: wrap;
 			gap: 1rem;
 			margin: 0 auto;
+
+			@media only screen and (max-width: 600px) {
+				gap: 0.25rem;
+			}
 
 			button {
 				background: #5f5f5f;
 				width: 90px;
-				height: 90px;
+				aspect-ratio: 1/1;
 				border-radius: 8%;
 				color: white;
 				position: relative;
 				border: 2px solid white;
+
+				@media only screen and (max-width: 600px) {
+					width: 70px;
+					font-size: 16px;
+				}
 
 				&::after {
 					content: "";
@@ -138,7 +155,15 @@
 
 				transition: all 0.25s;
 
-				&:hover, &.active {
+				@media (hover: hover) and (pointer: fine) {
+					&:hover {
+						background: #fff;
+						color: #5f5f5f;
+						border: 2px solid var(--color-accent);
+					}
+				}
+
+				&.active {
 					background: #fff;
 					color: #5f5f5f;
 					border: 2px solid var(--color-accent);

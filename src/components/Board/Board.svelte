@@ -6,8 +6,6 @@
 	import viewport from "$stores/viewport.js";
 	import { currentArtistIndex } from "$stores/misc";
 
-
-
 	export let experienceStarted;
 
 	export let artists;
@@ -63,7 +61,7 @@
 		<Counter maxArtistIndex={artists.length} />
 		<Artist artist={currentArtist} />
 
-		<Voter artist={currentArtist} bind:results  />
+		<Voter artist={currentArtist} bind:results />
 	{:else if state == "survey"}
 		<Survey bind:selectedFactors />
 	{/if}
@@ -78,7 +76,6 @@
 		margin: 0 auto;
 		align-content: flex-start;
 		flex-direction: column;
-		margin-top: 100px;
-		margin-bottom: 100px;
+		justify-content: space-between;
 	}
 </style>

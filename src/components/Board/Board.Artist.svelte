@@ -25,7 +25,11 @@
 				style:--toploader-url="url({base}/assets/toploaders/{$toploaderImageName}.png)"
 			></div>
 		{/if}
-		<img src="{base}/assets/images/{artist.id}.jpg" alt="" />
+		<div
+			class="image"
+			style:--image="url({base}/assets/images/{artist.id}.jpg)"
+		></div>
+		<!-- <img src="{base}/assets/images/{artist.id}.jpg" alt="" /> -->
 	</div>
 </div>
 
@@ -39,8 +43,15 @@
 		margin: 0;
 		line-height: 1.3;
 		text-align: left;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		flex-grow: 1;
 
 		&__title {
+			@media only screen and (max-width: 600px) {
+				margin: 0;
+			}
 		}
 
 		&__description {
@@ -48,7 +59,10 @@
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
 			text-rendering: optimizeLegibility;
-			margin-bottom: 50px;
+
+			@media only screen and (max-width: 600px) {
+				font-size: 16px;
+			}
 		}
 
 		&__player {
@@ -60,26 +74,34 @@
 		}
 
 		&__art {
-			border-radius: 8%;
-			background-size: cover;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-grow: 1;
+			max-height: 100%;
 			overflow: hidden;
-			max-width: 600px;
-			width: 100%;
-			margin: 2rem auto;
 			position: relative;
-
-			img {
-				width: 100%;
-			}
 
 			.toploader {
 				width: 100%;
 				height: 100%;
 				background-image: var(--toploader-url);
-				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: contain;
 				position: absolute;
 				top: 0;
 				left: 0;
+			}
+
+			.image {
+				height: 100%;
+				width: 100%;
+
+				background: var(--image);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: contain;
 			}
 		}
 	}

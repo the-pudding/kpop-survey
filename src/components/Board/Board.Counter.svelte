@@ -17,5 +17,10 @@
 		text-rendering: optimizeLegibility;
 		margin-bottom: 20px;
 		margin-left: 2px;
+		flex-shrink: 0;
+
+		@media only screen and (max-width: 600px) {
+			margin-bottom: 5px;
+		}
 	}
 </style>

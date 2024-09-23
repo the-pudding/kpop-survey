@@ -1,4 +1,6 @@
 <script>
+	import { base } from "$app/paths";
+
 	import { getContext } from "svelte";
 	import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
@@ -13,14 +15,11 @@
 
 	// utils
 
-
 	// function handleStartEvent(event) {
 	// 	experienceStarted = event.detail.started;
 	// }
 
 	export let artists;
-
-
 
 	let sliderEl;
 	let activeSlide = 0;
@@ -41,7 +40,25 @@
 	onMount(async () => {
 		mounted = true;
 	});
+
+	let preloadImageUrls = [
+		1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+		23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36
+	].map((id) => `${base}/assets/images/${id}.jpg`);
+
+	preloadImageUrls = [
+		...preloadImageUrls,
+		["1st", "2nd", "3rd", "4th", "5th"].map(
+			(gen) => `${base}/assets/toploaders/${gen}.png`
+		)
+	];
 </script>
+
+<svelte:head>
+	{#each preloadImageUrls as image}
+		<link rel="preload" as="image" href={image} />
+	{/each}
+</svelte:head>
 
 {#if mounted}
 	<!-- {#each allSlides as slide, i}
@@ -136,9 +153,8 @@
 
 	article {
 		position: absolute;
-		width: 100vw;
-		height: 100%;
-		min-height: 100vh;
+		width: 100lvw;
+		height: 100svh;
 		// padding: 1rem;
 		z-index: 3;
 	}
