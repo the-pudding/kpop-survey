@@ -6,7 +6,6 @@
 	import { getGenSurveyData } from "$utils/supabase";
 	import shadeColor from "$utils/shadeColor";
 
-
 	export let artists;
 	export let arrowStroke = "rgba(120, 120, 120, 1)";
 	export let arrowStrokeWidth = "3";
@@ -119,10 +118,12 @@
 							>
 								{#if val > 10}
 									<span class:isLargest
-										>{genLabels[i]}{#if isLargest}&nbsp;{#if gen}gen{/if} ({val.toFixed(
-												0
-											)}%){/if}</span
-									>
+										>{#if gen}
+											{genLabels[i]}{#if isLargest}&nbsp;gen ({val.toFixed(
+													0
+												)}%){/if}
+										{/if}
+									</span>
 								{/if}
 							</div>
 						{/each}
@@ -132,8 +133,6 @@
 		</div>
 	{/if}
 </div>
-
-
 
 <style lang="scss">
 	#results {
