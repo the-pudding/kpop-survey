@@ -1,6 +1,6 @@
 <script>
 	import { base } from "$app/paths";
-
+	import Footer from "./Footer.svelte";
 	import { getContext } from "svelte";
 	import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
@@ -12,6 +12,7 @@
 
 	import Board from "$components/Board/Board.svelte";
 	import IntroGallery from "./IntroGallery.svelte";
+	import { state } from "$stores/misc";
 
 	// utils
 
@@ -48,7 +49,7 @@
 
 	preloadImageUrls = [
 		...preloadImageUrls,
-		["1st", "2nd", "3rd", "4th", "5th"].map(
+		...["1st", "2nd", "3rd", "4th", "5th"].map(
 			(gen) => `${base}/assets/toploaders/${gen}.png`
 		)
 	];
@@ -70,7 +71,7 @@
 	{/each}
 </Slide>
 {/each} -->
-	<article>
+	<article style:--height={$state == "results" ? "100%" : "100svh"}>
 		<Slider bind:this={sliderEl} bind:current={activeSlide} duration="0">
 			{#each copy.body.index || [] as { type, value: props, component }, idx (idx)}
 				{@const isActive = idx == activeSlide ? true : false}
@@ -139,8 +140,9 @@
 {/if}
 
 <!-- <WIP /> -->
-
-<!-- <Footer /> -->
+{#if $state == "results"}
+	<Footer />
+{/if}
 
 <style lang="scss">
 	.text {
@@ -152,9 +154,10 @@
 	}
 
 	article {
-		position: absolute;
+		// position: absolute;
 		width: 100lvw;
-		height: 100svh;
+		overflow-x: hidden;
+		height: calc(var(--height) - var(--header-height));
 		// padding: 1rem;
 		z-index: 3;
 	}

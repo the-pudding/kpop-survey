@@ -1,6 +1,7 @@
 <script>
 	import "$styles/app.css";
 	import Header from "$components/Header.svelte";
+	import Meta from "../components/Meta.svelte";
 	import generateId from "$utils/generateId.js";
 	import localStorage from "$utils/localStorage.js";
 	import { userId, currentArtistIndex } from "$stores/misc";
@@ -44,7 +45,8 @@
 	}
 </script>
 
-<!-- <Header /> -->
+<Meta url="https://pudding.cool/2024/09/kpop-survey/" />
+<Header />
 <main id="content">
 	<slot />
 </main>

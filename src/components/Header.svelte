@@ -1,8 +1,16 @@
 <script>
 	import wordmark from "$svg/wordmark.svg";
+	import { onMount } from "svelte";
+
+	let headerElement;
+
+	onMount(() => {
+		const headerHeight = headerElement.offsetHeight;
+		document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+	});
 </script>
 
-<header>
+<header bind:this={headerElement}>
 	<div class="wordmark">
 		<a href="https://pudding.cool" aria-label="The Pudding" target="_self"
 			>{@html wordmark}</a

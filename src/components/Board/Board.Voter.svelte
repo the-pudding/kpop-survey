@@ -7,18 +7,44 @@
 		isShowingToploader,
 		toploaderImageName
 	} from "$stores/misc";
+
 	import { addGenSurveyData } from "$utils/supabase";
 
-	export let results;
-
 	export let artist;
+
+	let results = [
+		{
+			id: 0,
+			name: "I don't know"
+		},
+		{
+			id: 1,
+			name: "1st"
+		},
+		{
+			id: 2,
+			name: "2nd"
+		},
+		{
+			id: 3,
+			name: "3rd"
+		},
+		{
+			id: 4,
+			name: "4th"
+		},
+		{
+			id: 5,
+			name: "5th"
+		}
+	];
 
 	let [idk, ...gens] = results;
 
 	const handleVote = (option) => {
 		// results[option.id].items.push(artist);
 
-		localStorage.set("currentArtistIndex", $currentArtistIndex);
+		localStorage.set("currentArtistIndex", $currentArtistIndex + 1);
 		let entry = {
 			created_at: new Date(),
 			artist_id: artist.id,
@@ -62,7 +88,7 @@
 			{/each}
 		</div>
 
-		<button class="idk" on:click={() => handleVote(idk.id)}>{idk.name}</button>
+		<button class="idk" on:click={() => handleVote(idk)}>{idk.name}</button>
 	</div>
 </div>
 
@@ -86,6 +112,7 @@
 			-moz-osx-font-smoothing: grayscale;
 			text-rendering: optimizeLegibility;
 			margin-bottom: 1rem;
+			margin-top: 1rem;
 
 			@media only screen and (max-width: 600px) {
 				font-size: 16px;

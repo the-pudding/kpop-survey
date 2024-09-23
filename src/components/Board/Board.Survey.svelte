@@ -1,8 +1,10 @@
 <script>
 	import ChevronRight from "lucide-svelte/icons/chevron-right";
-
+	import { state } from "$stores/misc";
 	export let arrowStroke = "rgba(120, 120, 120, 1)";
 	export let arrowStrokeWidth = "3";
+
+	export let selectedFactors = [];
 
 	let factors = [
 		"Debut year",
@@ -22,7 +24,7 @@
 		"Other"
 	];
 
-	export let selectedFactors = [];
+
 
 	function handleCheckboxChange(event) {
 		const factor = event.target.value;
@@ -33,7 +35,6 @@
 		}
 	}
 
-	$: console.log(selectedFactors);
 </script>
 
 <div id="survey">
@@ -55,7 +56,7 @@
 				</label>
 			</div>
 		{/each}
-		<button class="next"
+		<button class="next" on:click={() => ($state = "results")}
 			>Next <ChevronRight
 				color={arrowStroke}
 				strokeWidth={arrowStrokeWidth}
@@ -168,6 +169,6 @@
 		margin-right: 5px;
 		background: none;
 		text-align: left;
-        text-decoration: underline;
+		text-decoration: underline;
 	}
 </style>
