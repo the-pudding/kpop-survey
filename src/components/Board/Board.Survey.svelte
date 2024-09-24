@@ -1,6 +1,9 @@
 <script>
 	import ChevronRight from "lucide-svelte/icons/chevron-right";
-	import { state } from "$stores/misc";
+	import localStorage from "$utils/localStorage.js";
+	import { state, userId } from "$stores/misc";
+	import { addData } from "$utils/supabase";
+
 	export let arrowStroke = "rgba(120, 120, 120, 1)";
 	export let arrowStrokeWidth = "3";
 
@@ -24,8 +27,6 @@
 		"Other"
 	];
 
-
-
 	function handleCheckboxChange(event) {
 		const factor = event.target.value;
 		if (event.target.checked) {
@@ -35,6 +36,15 @@
 		}
 	}
 
+	function handleSubmit() {
+		let entry = {
+			user_id: $userId,
+			response: selectedFactors.join(';')
+		};
+		addData(entry, "survey");
+		localStorage.set("surveyComplete", true);
+		$state = "results";
+	}
 </script>
 
 <div id="survey">
@@ -56,7 +66,7 @@
 				</label>
 			</div>
 		{/each}
-		<button class="next" on:click={() => ($state = "results")}
+		<button class="next" on:click={handleSubmit}
 			>Next <ChevronRight
 				color={arrowStroke}
 				strokeWidth={arrowStrokeWidth}

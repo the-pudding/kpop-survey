@@ -3,7 +3,8 @@
 	import { onMount } from "svelte";
 	import ChevronDown from "lucide-svelte/icons/chevron-down";
 	import ChevronUp from "lucide-svelte/icons/chevron-up";
-	import { getGenSurveyData } from "$utils/supabase";
+	import { addData, getGenSurveyData } from "$utils/supabase";
+	import { userId } from "$stores/misc";
 	import shadeColor from "$utils/shadeColor";
 
 	export let artists;
@@ -11,11 +12,17 @@
 	export let arrowStrokeWidth = "3";
 
 	let email = "";
+	let isSubmitted = false;
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		alert(`Email submitted: ${email}`);
-		// You can add further submission logic here (e.g., API calls)
+
+		let entry = {
+			user_id: $userId,
+			email: email
+		};
+		addData(entry, "emails");
+		isSubmitted = true;
 	};
 
 	let showResults = false;
@@ -84,8 +91,11 @@
 			placeholder="Email"
 			required
 			class="email-input"
+			disabled={isSubmitted}
 		/>
-		<button type="submit" class="submit-button">Submit</button>
+		<button type="submit" class="submit-button" disabled={isSubmitted}
+			>{#if isSubmitted}Thank you!{:else}Submit{/if}</button
+		>
 	</form>
 
 	<button class="reveal" on:click={() => (showResults = !showResults)}>
@@ -175,8 +185,12 @@
 				max-width: 200px;
 			}
 
-			.submit-button:hover {
+			.submit-button:not(:disabled):hover {
 				background-color: #ccc;
+			}
+
+			.submit-button:disabled {
+				cursor: auto;
 			}
 		}
 	}

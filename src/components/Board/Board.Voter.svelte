@@ -8,7 +8,7 @@
 		toploaderImageName
 	} from "$stores/misc";
 
-	import { addGenSurveyData } from "$utils/supabase";
+	import { addData } from "$utils/supabase";
 
 	export let artist;
 
@@ -46,12 +46,11 @@
 
 		localStorage.set("currentArtistIndex", $currentArtistIndex + 1);
 		let entry = {
-			created_at: new Date(),
 			artist_id: artist.id,
 			gen: option.id,
 			user_id: $userId
 		};
-		addGenSurveyData(entry);
+		addData(entry, 'entries');
 		let interval;
 
 		clearInterval(interval);

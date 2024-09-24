@@ -4,7 +4,8 @@
 	import Voter from "./Board.Voter.svelte";
 	import Survey from "./Board.Survey.svelte";
 	import Results from "./Board.Results.svelte";
-	import viewport from "$stores/viewport.js";
+	import localStorage from "$utils/localStorage.js";
+
 	import { state, currentArtistIndex } from "$stores/misc";
 
 	export let experienceStarted;
@@ -23,6 +24,13 @@
 		$state = "survey";
 	}
 
+	$: if (
+		$currentArtistIndex > artists.length - 1 &&
+		localStorage.get("surveyComplete")
+	) {
+		$state = "results";
+	}
+
 	// $: console.log(state, currentArtist);
 </script>
 
@@ -39,7 +47,7 @@
 	{:else if $state == "survey"}
 		<Survey bind:selectedFactors />
 	{:else if $state == "results"}
-		<Results {artists}/>
+		<Results {artists} />
 	{/if}
 </section>
 

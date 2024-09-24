@@ -4,7 +4,7 @@
 	import Meta from "../components/Meta.svelte";
 	import generateId from "$utils/generateId.js";
 	import localStorage from "$utils/localStorage.js";
-	import { userId, currentArtistIndex } from "$stores/misc";
+	import { userId, currentArtistIndex, state } from "$stores/misc";
 
 	if (typeof window !== "undefined") {
 		function checkAndClearParams() {
@@ -16,6 +16,16 @@
 
 			if (urlParams.get("clearCurrentArtistIndex") === "true") {
 				localStorage.remove("currentArtistIndex");
+			}
+
+			if (urlParams.get("clearSurveyComplete") === "true") {
+				localStorage.remove("surveyComplete");
+			}
+
+			if (urlParams.get("clear") === "true") {
+				localStorage.remove("userId");
+				localStorage.remove("currentArtistIndex");
+				localStorage.remove("surveyComplete");
 			}
 		}
 
@@ -37,6 +47,9 @@
 			// Handle last submitted ID
 			$currentArtistIndex =
 				localStorage.get("currentArtistIndex") || $currentArtistIndex;
+
+
+
 		}
 
 		// Call functions on client-side only

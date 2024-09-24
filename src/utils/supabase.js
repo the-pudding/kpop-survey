@@ -25,11 +25,11 @@ export async function getGenSurveyData() {
   }
 }
 
-// Function to insert records into the 'gen_survey' table
-export async function addGenSurveyData(records) {
+// Function to insert records into a table
+export async function addData(records, table) {
   try {
     const { data, error } = await supabase
-      .from('entries')
+      .from(table)
       .insert(records);
 
     if (error) {
@@ -43,22 +43,3 @@ export async function addGenSurveyData(records) {
     return null;
   }
 }
-
-// // Function to insert records into the 'factor_survey' table
-// export async function addFactorSurveyData(records) {
-//   try {
-//     const { data, error } = await supabase
-//       .from('factor_survey')
-//       .insert(records);
-
-//     if (error) {
-//       console.error('Error inserting data:', error);
-//       return null;
-//     }
-
-//     return data;
-//   } catch (error) {
-//     console.error('Unexpected error:', error);
-//     return null;
-//   }
-// }
