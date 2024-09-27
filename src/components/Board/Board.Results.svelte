@@ -38,6 +38,9 @@
 	let finalResults = {};
 
 	onMount(async () => {
+
+		window.scrollTo(0,0);
+
 		let results = await getGenSurveyData();
 
 		let groupedById = groupBy(results, "artist_id");

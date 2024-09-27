@@ -10,8 +10,6 @@
 	export let selectedFactors = [];
 	export let copy;
 
-
-
 	function handleCheckboxChange(event) {
 		const factor = event.target.value;
 		// Check if already selected and handle deselection
@@ -30,7 +28,7 @@
 	function handleSubmit() {
 		let entry = {
 			user_id: $userId,
-			response: selectedFactors.join(';')
+			response: selectedFactors.join(";")
 		};
 		addData(entry, "survey");
 		localStorage.set("surveyComplete", true);
@@ -57,7 +55,10 @@
 				</label>
 			</div>
 		{/each}
-		<Next onClick={handleSubmit} fixed={false}/>
+		<div class="next">
+			<Next onClick={handleSubmit} fixed={false} />
+		</div>
+
 		<!-- <button class="next" on:click={handleSubmit}
 			>Next <ChevronRight
 				color={arrowStroke}
@@ -158,4 +159,11 @@
 		border: 0;
 	}
 
+	.next {
+		
+		@media only screen and (max-width: 600px) {
+			width: 100%;
+			text-align: right;
+		}
+	}
 </style>
