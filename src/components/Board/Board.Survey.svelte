@@ -2,7 +2,7 @@
 	import Next from "$components/Next.svelte";
 	import ChevronRight from "lucide-svelte/icons/chevron-right";
 	import localStorage from "$utils/localStorage.js";
-	import { state, userId } from "$stores/misc";
+	import { state, userId, test } from "$stores/misc";
 	import { addData } from "$utils/supabase";
 
 	export let arrowStroke = "rgba(120, 120, 120, 1)";
@@ -30,7 +30,9 @@
 			user_id: $userId,
 			response: selectedFactors.join(";")
 		};
-		addData(entry, "survey");
+
+		if (!$test) addData(entry, "survey");
+
 		localStorage.set("surveyComplete", true);
 		$state = "results";
 	}
@@ -160,7 +162,6 @@
 	}
 
 	.next {
-		
 		@media only screen and (max-width: 600px) {
 			width: 100%;
 			text-align: right;

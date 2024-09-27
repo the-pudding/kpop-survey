@@ -4,7 +4,7 @@
 	import ChevronDown from "lucide-svelte/icons/chevron-down";
 	import ChevronUp from "lucide-svelte/icons/chevron-up";
 	import { addData, getGenSurveyData } from "$utils/supabase";
-	import { userId } from "$stores/misc";
+	import { userId, test } from "$stores/misc";
 	import shadeColor from "$utils/shadeColor";
 
 	export let artists;
@@ -22,7 +22,7 @@
 			user_id: $userId,
 			email: email
 		};
-		addData(entry, "emails");
+		if (!$test) addData(entry, "emails");
 		isSubmitted = true;
 	};
 

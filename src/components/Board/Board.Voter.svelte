@@ -5,7 +5,8 @@
 		userId,
 		currentArtistIndex,
 		isShowingToploader,
-		toploaderImageName
+		toploaderImageName,
+		test
 	} from "$stores/misc";
 
 	import { addData } from "$utils/supabase";
@@ -43,15 +44,15 @@
 	let [idk, ...gens] = results;
 
 	const handleVote = (option) => {
-		// results[option.id].items.push(artist);
-
 		localStorage.set("currentArtistIndex", $currentArtistIndex + 1);
 		let entry = {
 			artist_id: artist.id,
 			gen: option.id,
 			user_id: $userId
 		};
-		addData(entry, "entries");
+
+		if (!$test) addData(entry, "entries");
+
 		let interval;
 
 		clearInterval(interval);
@@ -89,7 +90,12 @@
 		</div>
 
 		<div class="idk">
-			<Next onClick={() => handleVote(idk)} text="I don't know" fixed={false} fontSize="18px" />
+			<Next
+				onClick={() => handleVote(idk)}
+				text="I don't know"
+				fixed={false}
+				fontSize="18px"
+			/>
 		</div>
 		<!-- <button class="idk" on:click={() => handleVote(idk)}>{idk.name}</button> -->
 	</div>
