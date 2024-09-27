@@ -10,6 +10,7 @@
 
 	import { addData } from "$utils/supabase";
 
+	import Next from "$components/Next.svelte";
 	export let artist;
 
 	let results = [
@@ -50,7 +51,7 @@
 			gen: option.id,
 			user_id: $userId
 		};
-		addData(entry, 'entries');
+		addData(entry, "entries");
 		let interval;
 
 		clearInterval(interval);
@@ -87,7 +88,10 @@
 			{/each}
 		</div>
 
-		<button class="idk" on:click={() => handleVote(idk)}>{idk.name}</button>
+		<div class="idk">
+			<Next onClick={() => handleVote(idk)} text="I don't know" fixed={false} fontSize="1.3rem" />
+		</div>
+		<!-- <button class="idk" on:click={() => handleVote(idk)}>{idk.name}</button> -->
 	</div>
 </div>
 
@@ -131,16 +135,9 @@
 			text-rendering: optimizeLegibility;
 
 			.idk {
-				background: none;
-				text-decoration: underline;
-				text-align: left;
-				color: rgba(120, 120, 120, 1);
-				margin: 0px;
-				padding: 0px;
-				font-size: 18px;
-				@media only screen and (max-width: 600px) {
-					font-size: 16px;
-				}
+				text-align: center;
+				margin-top: 1rem;
+				margin-bottom: 1rem;
 			}
 		}
 		&__controls__gens {

@@ -10,6 +10,7 @@
 	export let artists;
 	export let arrowStroke = "rgba(120, 120, 120, 1)";
 	export let arrowStrokeWidth = "3";
+	export let copy;
 
 	let email = "";
 	let isSubmitted = false;
@@ -78,11 +79,8 @@
 </script>
 
 <div id="results">
-	<h2>Thank you for submitting the survey</h2>
-	<p>
-		We're looking for K-pop fans to interview for part 2. Drop your email if
-		you're interested in keeping in touch.
-	</p>
+	<h2 class="title-font">{copy.title}</h2>
+	<p>{copy.text}</p>
 
 	<form on:submit={handleSubmit} class="email-signup">
 		<input
@@ -98,7 +96,7 @@
 		>
 	</form>
 
-	<button class="reveal" on:click={() => (showResults = !showResults)}>
+	<button class="reveal title-font" on:click={() => (showResults = !showResults)}>
 		{#if showResults}
 			Hide survey results
 			<ChevronUp color={"#000"} strokeWidth={arrowStrokeWidth} />
@@ -142,6 +140,11 @@
 			{/each}
 		</div>
 	{/if}
+
+	<div class="methodology ">
+		<h3 class="title-font">Methodology</h3>
+		<p>{copy.methodology}</p>
+	</div>
 </div>
 
 <style lang="scss">
@@ -249,5 +252,13 @@
 				}
 			}
 		}
+	}
+
+	.methodology {
+		border-top: 1px solid #000;
+		margin-top: 10rem;
+		padding-top: 1rem;
+
+	
 	}
 </style>

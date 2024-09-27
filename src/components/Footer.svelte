@@ -4,10 +4,52 @@
 	import wordmark from "$svg/wordmark.svg";
 
 	let localURL;
-	let stories = [];
+	// let stories = [];
 
-	const v = Date.now();
-	const url = `https://pudding.cool/assets/data/stories.json?v=${v}`;
+	let stories = [
+		{
+			image: "2020_04_music-challenge",
+			url: "2020/04/music-challenge",
+			hed: "Identifying Generational Gaps in Music",
+			tease:
+				"Take this quiz to see if you’re better than others your age at recognizing songs from history.",
+			date: "04/30/2020",
+			bgColor: "",
+			fgColor: ""
+		},
+		{
+			image: "2023_10_genre",
+			url: "2023/10/genre",
+			hed: "You should look at this chart about music genres.",
+			tease:
+				'Spotify tracks over 6,000 genres—everything from "rock" to "stomp-and-holler." Here\'s why that\'s cool.',
+			date: "10/25/2023",
+			bgColor: "",
+			fgColor: ""
+		},
+		{
+			image: "projects_music-history",
+			url: "projects/music-history",
+			hed: "Best Year in Music",
+			tease:
+				"Sit back and relax as we take you on an updated journey through every Billboard Top 5 hit to find music’s greatest era.",
+			date: "06/14/2019",
+			bgColor: "",
+			fgColor: ""
+		},
+		{
+			image: "2024_09_lineup",
+			url: "2024/09/lineup",
+			hed: "Batting by the Numbers",
+			tease: "See how modern stats are reshaping baseball’s batting lineups.",
+			date: "09/24/2024",
+			bgColor: "",
+			fgColor: ""
+		}
+	];
+
+	// const v = Date.now();
+	// const url = `https://pudding.cool/assets/data/stories.json?v=${v}`;
 
 	const links = [
 		{ name: "about", url: "https://pudding.cool/about" },
@@ -23,12 +65,12 @@
 		{ name: "rss", url: "https://pudding.cool/feed/index.xml" }
 	];
 
-	onMount(async () => {
-		localURL = window.location.href;
-		const response = await fetch(url);
-		const data = await response.json();
-		stories = data.filter((d) => !localURL.includes(d.url)).slice(0, 4);
-	});
+	// onMount(async () => {
+	// 	localURL = window.location.href;
+	// 	const response = await fetch(url);
+	// 	const data = await response.json();
+	// 	stories = data.filter((d) => !localURL.includes(d.url)).slice(0, 4);
+	// });
 </script>
 
 <footer>

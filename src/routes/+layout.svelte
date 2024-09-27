@@ -1,10 +1,14 @@
 <script>
 	import "$styles/app.css";
 	import Header from "$components/Header.svelte";
-	import Meta from "../components/Meta.svelte";
+	import Footer from "$components/Footer.svelte";
+	import WIP from "$components/helpers/WIP.svelte";
+	import Meta from "$components/Meta.svelte";
 	import generateId from "$utils/generateId.js";
 	import localStorage from "$utils/localStorage.js";
 	import { userId, currentArtistIndex, state } from "$stores/misc";
+	import { getContext } from "svelte";
+
 
 	if (typeof window !== "undefined") {
 		function checkAndClearParams() {
@@ -58,8 +62,12 @@
 	}
 </script>
 
-<Meta url="https://pudding.cool/2024/09/kpop-survey/" />
+
 <Header />
 <main id="content">
 	<slot />
 </main>
+<WIP />
+{#if $state == "results"}
+	<Footer />
+{/if}

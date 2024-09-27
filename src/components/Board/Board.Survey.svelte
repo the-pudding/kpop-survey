@@ -1,4 +1,5 @@
 <script>
+	import Next from "$components/Next.svelte";
 	import ChevronRight from "lucide-svelte/icons/chevron-right";
 	import localStorage from "$utils/localStorage.js";
 	import { state, userId } from "$stores/misc";
@@ -6,31 +7,21 @@
 
 	export let arrowStroke = "rgba(120, 120, 120, 1)";
 	export let arrowStrokeWidth = "3";
-
 	export let selectedFactors = [];
+	export let copy;
 
-	let factors = [
-		"Debut year",
-		"Peak active periods",
-		"Association with other groups",
-		"Length of contracts",
-		"Member age ranges",
-		"Member racial diversity",
-		"Member positions (or lack thereof)",
-		"Fashion trends",
-		"Music genre trends",
-		"Promotion models",
-		"Fan interaction models",
-		"Influence on industry",
-		"Target audience",
-		"Makeup of fanbase",
-		"Other"
-	];
+
 
 	function handleCheckboxChange(event) {
 		const factor = event.target.value;
+		// Check if already selected and handle deselection
 		if (event.target.checked) {
-			selectedFactors = [...selectedFactors, factor];
+			if (selectedFactors.length < 3) {
+				selectedFactors = [...selectedFactors, factor];
+			} else {
+				// Prevent more than 3 checkboxes being checked
+				event.target.checked = false;
+			}
 		} else {
 			selectedFactors = selectedFactors.filter((f) => f !== factor);
 		}
@@ -48,10 +39,10 @@
 </script>
 
 <div id="survey">
-	<h2>What factors did you consider to fit each group into a generation?</h2>
-	<p>Select all that apply</p>
+	<h2 class="title-font">{copy.title}</h2>
+	<p>{copy.text}</p>
 	<form>
-		{#each factors as factor}
+		{#each copy.factors as factor}
 			<div class="round">
 				<input
 					type="checkbox"
@@ -66,12 +57,13 @@
 				</label>
 			</div>
 		{/each}
-		<button class="next" on:click={handleSubmit}
+		<Next onClick={handleSubmit}/>
+		<!-- <button class="next" on:click={handleSubmit}
 			>Next <ChevronRight
 				color={arrowStroke}
 				strokeWidth={arrowStrokeWidth}
 			/></button
-		>
+		> -->
 	</form>
 </div>
 
@@ -134,11 +126,6 @@
 					width: 0;
 					height: 0;
 
-					// &:focus + .checkbox-label {
-					// 	outline: 2px solid var(--accent-color);
-					// 	outline-offset: 2px;
-					// }
-
 					&:checked + .checkbox-label {
 						background-color: var(--accent-color);
 						border-color: var(--accent-color);
@@ -171,14 +158,4 @@
 		border: 0;
 	}
 
-	.next {
-		font-size: 24px;
-		letter-spacing: -0.5px;
-		color: rgba(120, 120, 120, 1);
-		line-height: 0.9;
-		margin-right: 5px;
-		background: none;
-		text-align: left;
-		text-decoration: underline;
-	}
 </style>

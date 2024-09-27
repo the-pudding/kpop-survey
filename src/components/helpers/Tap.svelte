@@ -2,6 +2,7 @@
 	import ChevronLeft from "lucide-svelte/icons/chevron-left";
 	import ChevronRight from "lucide-svelte/icons/chevron-right";
 	import { createEventDispatcher } from "svelte";
+	import Next from "$components/Next.svelte";
 
 	export let debug = false;
 	export let enableKeyboard = false;
@@ -52,10 +53,11 @@
 			{#if visibleArrows.includes(dir)}
 				<span class="arrows" style="font-size: {arrowSize};">
 					{#if dir === "left"}
-						<ChevronLeft color={arrowStroke} strokeWidth={arrowStrokeWidth} />
+						<!-- <ChevronLeft color={arrowStroke} strokeWidth={arrowStrokeWidth} /> -->
 					{:else if dir === "right"}
-						<span class="next">Next</span>
-						<ChevronRight color={arrowStroke} strokeWidth={arrowStrokeWidth} />
+						<!-- <span class="next">Next</span>
+						<ChevronRight color={arrowStroke} strokeWidth={arrowStrokeWidth} /> -->
+						<Next />
 					{/if}
 				</span>
 			{/if}

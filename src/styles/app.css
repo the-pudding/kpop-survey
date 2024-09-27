@@ -9,6 +9,7 @@
 	--sans: "Atlas Grotesk", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
 	--serif: "Tiempos Text Web", Iowan Old Style, Times New Roman, Times, serif;
 	--mono: Menlo, Consolas, Monaco, monospace;
+	--title: "Lilita One", sans-serif;
 
 	/* z-index */
 	--z-bottom: -100;
@@ -20,7 +21,7 @@
 	--border-radius: 2px;
 	--font-body: var(--sans);
 	--font-form: var(--sans);
-	--color-bg: rgba(242, 242, 242, 1);
+	--color-bg: #F8F6F6;
 	--color-fg: black;
 	--color-primary: var(--color-black);
 	--color-link: var(--color-black);
@@ -37,6 +38,9 @@
 
 	/* "1" second duration */
 	--1s: 1ms;
+
+
+	--color-pink: #FAA4E5;
 }
 
 /* dark theme */
@@ -98,7 +102,15 @@ h6 {
 	font-size: var(--20px, 20px);
 }
 
-span.intro-highlight {
+/* span.intro-highlight {
 	background-color: rgba(223, 86, 235, 0.2);
 	display: inline-block;
-}
+} */
+
+
+.title-font {
+	font-family: var(--title);
+	font-weight: 400;
+	font-style: normal;
+  }
+  

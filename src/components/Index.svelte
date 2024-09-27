@@ -1,7 +1,7 @@
 <script>
 	import { base } from "$app/paths";
-	import Footer from "./Footer.svelte";
-	import { getContext } from "svelte";
+
+
 	import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
 	import Intro from "$components/Intro.svelte";
@@ -83,7 +83,7 @@
 							{#if isActive}
 								<p
 									transition:fly={{ y: 20, duration: 500 }}
-									class="text"
+									class="text title-font"
 									class:isActive
 								>
 									{@html text.value}
@@ -91,13 +91,12 @@
 							{/if}
 						{/each}
 
-						{#if idx == 1 && isActive}
-							<!-- THIS IS THE COMPONENT -->
+						<!-- {#if idx == 1 && isActive}
 							<IntroGallery />
-						{/if}
+						{/if} -->
 					{:else if type == "voting"}
 						{#if isActive}
-							<Board {experienceStarted} artists={artists.reverse()}></Board>
+							<Board {experienceStarted} artists={artists.reverse()} {copy}></Board>
 						{/if}
 					{/if}
 				</Slide>
@@ -139,18 +138,16 @@
 	</div> -->
 {/if}
 
-<!-- <WIP /> -->
-{#if $state == "results"}
-	<Footer />
-{/if}
+
 
 <style lang="scss">
 	.text {
-		font-size: 33px;
+		font-size: 4rem;
 		font-weight: 400;
 		width: calc(100% - 50px);
+		max-width: 900px;
 		letter-spacing: -0.5px;
-		line-height: 36px;
+		line-height: 1.2;
 	}
 
 	article {

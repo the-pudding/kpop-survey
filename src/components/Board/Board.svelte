@@ -9,8 +9,8 @@
 	import { state, currentArtistIndex } from "$stores/misc";
 
 	export let experienceStarted;
-
 	export let artists;
+	export let copy;
 
 	let selectedFactors = [];
 
@@ -45,9 +45,9 @@
 
 		<Voter artist={currentArtist} />
 	{:else if $state == "survey"}
-		<Survey bind:selectedFactors />
+		<Survey bind:selectedFactors copy={copy.survey} />
 	{:else if $state == "results"}
-		<Results {artists} />
+		<Results {artists} copy={copy.results}/>
 	{/if}
 </section>
 
