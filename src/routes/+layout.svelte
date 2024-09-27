@@ -67,7 +67,7 @@
 <main id="content">
 	<slot />
 </main>
-<WIP />
+<!-- <WIP /> -->
 {#if $state == "results"}
 	<Footer />
 {/if}

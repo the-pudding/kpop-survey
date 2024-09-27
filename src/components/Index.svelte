@@ -71,7 +71,7 @@
 	{/each}
 </Slide>
 {/each} -->
-	<article style:--height={$state == "results" ? "100%" : "100svh"}>
+	<article style:--height={$state == "survey" || $state == "results" ? "100%" : "100svh"}>
 		<Slider bind:this={sliderEl} bind:current={activeSlide} duration="0">
 			{#each copy.body.index || [] as { type, value: props, component }, idx (idx)}
 				{@const isActive = idx == activeSlide ? true : false}

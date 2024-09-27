@@ -57,7 +57,7 @@
 				</label>
 			</div>
 		{/each}
-		<Next onClick={handleSubmit}/>
+		<Next onClick={handleSubmit} fixed={false}/>
 		<!-- <button class="next" on:click={handleSubmit}
 			>Next <ChevronRight
 				color={arrowStroke}
