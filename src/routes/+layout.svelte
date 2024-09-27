@@ -28,6 +28,7 @@
 
 			if (urlParams.get("test") === "true") {
 				$test = true
+				console.log("----In testing mode!----")
 			}
 
 			if (urlParams.get("clear") === "true") {
