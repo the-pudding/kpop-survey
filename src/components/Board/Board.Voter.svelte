@@ -89,7 +89,7 @@
 		</div>
 
 		<div class="idk">
-			<Next onClick={() => handleVote(idk)} text="I don't know" fixed={false} fontSize="1.3rem" />
+			<Next onClick={() => handleVote(idk)} text="I don't know" fixed={false} fontSize="18px" />
 		</div>
 		<!-- <button class="idk" on:click={() => handleVote(idk)}>{idk.name}</button> -->
 	</div>

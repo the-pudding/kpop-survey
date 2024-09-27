@@ -1,7 +1,6 @@
 <script>
 	import { base } from "$app/paths";
 
-
 	import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
 	import Intro from "$components/Intro.svelte";
@@ -56,6 +55,7 @@
 </script>
 
 <svelte:head>
+
 	{#each preloadImageUrls as image}
 		<link rel="preload" as="image" href={image} />
 	{/each}
@@ -96,7 +96,8 @@
 						{/if} -->
 					{:else if type == "voting"}
 						{#if isActive}
-							<Board {experienceStarted} artists={artists.reverse()} {copy}></Board>
+							<Board {experienceStarted} artists={artists.reverse()} {copy}
+							></Board>
 						{/if}
 					{/if}
 				</Slide>
@@ -138,8 +139,6 @@
 	</div> -->
 {/if}
 
-
-
 <style lang="scss">
 	.text {
 		font-size: 4rem;
@@ -148,6 +147,12 @@
 		max-width: 900px;
 		letter-spacing: -0.5px;
 		line-height: 1.2;
+
+		@media only screen and (max-width: 600px) {
+			max-width: 100%;
+			width: calc(100% - 5px);
+			font-size: 2.5rem;
+		}
 	}
 
 	article {

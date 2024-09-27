@@ -2,10 +2,15 @@
 	export let text = "NEXT";
 	export let onClick = () => {};
 	export let fixed = true;
-    export let fontSize = "2rem"
+	export let fontSize = "2rem";
 </script>
 
-<button on:click={onClick} class="title-font" class:fixed style:--font-size={fontSize}>
+<button
+	on:click={onClick}
+	class="title-font"
+	class:fixed
+	style:--font-size={fontSize}
+>
 	{text}
 </button>
 
@@ -21,15 +26,21 @@
 		transition: background-color 0.3s;
 		transition: transform 0.5s;
 		width: fit-content;
+		touch-action: manipulation;
 
 		&.fixed {
 			position: fixed;
 			right: 2rem;
-            bottom: 100px;
+			bottom: 100px;
+
+			@media only screen and (max-width: 600px) {
+				bottom: 30px;
+			}
 		}
 	}
-
-	button:hover {
-		transform: scale(1.1);
+	@media (hover: hover) and (pointer: fine) {
+		button:hover {
+			transform: scale(1.1);
+		}
 	}
 </style>
