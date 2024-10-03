@@ -10,8 +10,6 @@ export function multiplyCssValue(cssValue, multiplier) {
 	// Destructure the match array to get the value and the unit
 	const [, value, unit] = match;
 
-	console.log(multiplier);
-
 	// Multiply the numeric part and concatenate with the unit
 	return `${parseFloat(value) * multiplier}${unit}`;
 }

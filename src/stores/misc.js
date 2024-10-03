@@ -6,6 +6,7 @@ export const isMobile = writable(get(viewport).width <= 500)
 export const state = writable('intro')
 export const userId = writable()
 export const currentArtistIndex = writable(0)
+export const shuffledArtists = writable()
 export const isShowingToploader = writable(false)
 export const toploaderImageName = writable()
 

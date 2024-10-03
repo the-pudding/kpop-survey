@@ -6,7 +6,7 @@
 	import Meta from "$components/Meta.svelte";
 	import generateId from "$utils/generateId.js";
 	import localStorage from "$utils/localStorage.js";
-	import { userId, currentArtistIndex, state, test } from "$stores/misc";
+	import { userId, currentArtistIndex, shuffledArtists, state, test } from "$stores/misc";
 	import { getContext } from "svelte";
 
 
@@ -22,6 +22,10 @@
 				localStorage.remove("currentArtistIndex");
 			}
 
+			if (urlParams.get("clearShuffledArtists") === "true") {
+				localStorage.remove("shuffledArtists");
+			}
+
 			if (urlParams.get("clearSurveyComplete") === "true") {
 				localStorage.remove("surveyComplete");
 			}
@@ -35,11 +39,12 @@
 				localStorage.remove("userId");
 				localStorage.remove("currentArtistIndex");
 				localStorage.remove("surveyComplete");
+				localStorage.remove("shuffledArtists");
 			}
 		}
 
 		function initializeUser() {
-			// Handle custom ID
+
 			$userId = localStorage.get("userId");
 
 			if (!$userId) {
@@ -52,6 +57,8 @@
 				localStorage.set("userId", newUserId);
 				$userId = localStorage.get("userId");
 			}
+
+
 
 			// Handle last submitted ID
 			$currentArtistIndex =

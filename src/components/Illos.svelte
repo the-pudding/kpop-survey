@@ -81,7 +81,7 @@
 
 		{
 			name: "star-2",
-			position: { top: "50%", left: "20%" },
+			position: { top: "50%", left: "15%" },
 			width: "10vh",
 			hideOnRecede: true
 		},

@@ -1,6 +1,6 @@
 <script>
 	import Next from "$components/Next.svelte";
-	import ChevronRight from "lucide-svelte/icons/chevron-right";
+
 	import localStorage from "$utils/localStorage.js";
 	import { state, userId, test } from "$stores/misc";
 	import { addData } from "$utils/supabase";

@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from "svelte";
 	import Counter from "./Board.Counter.svelte";
 	import Artist from "./Board.Artist.svelte";
 	import Voter from "./Board.Voter.svelte";
@@ -6,50 +7,67 @@
 	import Results from "./Board.Results.svelte";
 	import localStorage from "$utils/localStorage.js";
 
-	import { state, currentArtistIndex } from "$stores/misc";
+	import { state, currentArtistIndex, shuffledArtists } from "$stores/misc";
 
-	export let experienceStarted;
-	export let artists;
 	export let copy;
-
-	let selectedFactors = [];
-
-	$: currentArtist = artists?.[$currentArtistIndex];
-
-	// $: state = "voting";
+	export let artists;
 
 	$state = "voting";
 
-	$: if ($currentArtistIndex > artists.length - 1 && $state == "voting") {
-		$state = "survey";
-	}
+	let currentArtist;
 
-	$: if (
-		$currentArtistIndex > artists.length - 1 &&
-		localStorage.get("surveyComplete")
-	) {
-		$state = "results";
-	}
+	onMount(() => {
+		// Check if the shuffled version is already in localStorage
+		$shuffledArtists = localStorage.get("shuffledArtists");
 
-	// $: console.log(state, currentArtist);
+		if (!$shuffledArtists) {
+			// If not, shuffle the artists and store the result
+			$shuffledArtists = artists.slice().sort(() => Math.random() - 0.5);
+			localStorage.set("shuffledArtists", JSON.stringify($shuffledArtists));
+		} else {
+			// Parse it if it exists
+			$shuffledArtists = JSON.parse($shuffledArtists);
+		}
+	});
+
+	let selectedFactors = [];
+
+	$: if ($shuffledArtists?.length) {
+		currentArtist = $shuffledArtists?.[$currentArtistIndex];
+
+		if (
+			$currentArtistIndex > $shuffledArtists.length - 1 &&
+			$state == "voting"
+		) {
+			$state = "survey";
+		}
+
+		if (
+			$currentArtistIndex > $shuffledArtists.length - 1 &&
+			localStorage.get("surveyComplete")
+		) {
+			$state = "results";
+		}
+	}
 </script>
 
-<section
-	class="board"
-	class:experienceStarted
-	style:--justify-content={$state == "voting" ? "space-between" : "center"}
->
-	{#if $state == "voting"}
-		<Counter maxArtistIndex={artists.length} />
-		<Artist artist={currentArtist} />
+{#if $shuffledArtists}
+	<section
+		class="board"
+		style:--justify-content={$state == "voting" ? "space-between" : "center"}
+	>
+		{#if $state == "voting"}
+			<Counter maxArtistIndex={artists.length} />
+			<Artist artist={currentArtist} />
 
-		<Voter artist={currentArtist} />
-	{:else if $state == "survey"}
-		<Survey bind:selectedFactors copy={copy.survey} />
-	{:else if $state == "results"}
-		<Results {artists} copy={copy.results}/>
-	{/if}
-</section>
+			<Voter artist={currentArtist} />
+		{:else if $state == "survey"}
+			<Survey bind:selectedFactors copy={copy.survey} />
+		{:else if $state == "results"}
+			<Results {artists} copy={copy.results} />
+		{/if}
+	</section>
+{/if}
 
 <style lang="scss">
 	.board {
