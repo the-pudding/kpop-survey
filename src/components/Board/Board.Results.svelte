@@ -3,7 +3,7 @@
 	import { onMount } from "svelte";
 	import ChevronDown from "lucide-svelte/icons/chevron-down";
 	import ChevronUp from "lucide-svelte/icons/chevron-up";
-	import { addData, getGenSurveyData } from "$utils/supabase";
+	import { addData, summarizeGenShare } from "$utils/supabase";
 	import { userId, test } from "$stores/misc";
 	import shadeColor from "$utils/shadeColor";
 
@@ -28,45 +28,21 @@
 
 	let showResults = false;
 
-	function groupBy(xs, key) {
-		return xs.reduce(function (rv, x) {
-			(rv[x[key]] = rv[x[key]] || []).push(x);
-			return rv;
-		}, {});
-	}
+	// function groupBy(xs, key) {
+	// 	return xs.reduce(function (rv, x) {
+	// 		(rv[x[key]] = rv[x[key]] || []).push(x);
+	// 		return rv;
+	// 	}, {});
+	// }
 
-	let finalResults = {};
+	// let finalResults = {};
+
+	let results;
 
 	onMount(async () => {
+		window.scrollTo(0, 0);
 
-		window.scrollTo(0,0);
-
-		let results = await getGenSurveyData();
-
-		let groupedById = groupBy(results, "artist_id");
-
-		Object.entries(groupedById).map(([artistId, items]) => {
-			let groupedByGen = groupBy(items, "gen");
-
-			let totalItems = items.length;
-
-			let genPercentages = {};
-
-			let highestGen;
-			let highestGenValue = 0;
-
-			Object.entries(groupedByGen).forEach(([gen, genItems]) => {
-				let genCount = genItems.length;
-				let percentage = ((genCount / totalItems) * 100).toFixed(2);
-				genPercentages[gen] = percentage;
-				if (percentage > highestGenValue) {
-					highestGen = gen;
-					highestGenValue = percentage;
-				}
-			});
-
-			finalResults[artistId] = { ...genPercentages, highestGen };
-		});
+		results = await summarizeGenShare();
 	});
 
 	let genIds = [1, 2, 3, 4, 5, 0];
@@ -82,7 +58,7 @@
 </script>
 
 <div id="results">
-	<h2 class="title-font">{copy.title}</h2>
+	<h1 class="title-font">{copy.title}</h1>
 	<p>{copy.text}</p>
 
 	<form on:submit={handleSubmit} class="email-signup">
@@ -99,7 +75,10 @@
 		>
 	</form>
 
-	<button class="reveal title-font" on:click={() => (showResults = !showResults)}>
+	<button
+		class="reveal title-font"
+		on:click={() => (showResults = !showResults)}
+	>
 		{#if showResults}
 			Hide survey results
 			<ChevronUp color={"#000"} strokeWidth={arrowStrokeWidth} />
@@ -109,17 +88,20 @@
 		{/if}</button
 	>
 
-	{#if showResults}
+	{#if showResults && results.length}
 		<div class="viz" in:slide out:slide>
 			{#each artists as artist}
 				<div class="row">
 					<div class="artist">{artist.name}</div>
 					<div class="plot">
 						{#each genIds as gen, i}
-							{@const result = finalResults[artist.id]}
-							{@const val = Number(result?.[gen]) || 0}
+							{@const result = results.find((r) => r.artist_id == artist.id)}
+
+							{@const val = Number(result.gen_shares?.[gen]) * 100 || 0}
 							{@const color = colors[i]}
-							{@const isLargest = result?.highestGen == gen}
+
+							{@const isLargest = result?.highest_gen == gen}
+
 							<div
 								class="cell gen-{gen}"
 								data-percentage="{val}%"
@@ -144,7 +126,7 @@
 		</div>
 	{/if}
 
-	<div class="methodology ">
+	<div class="methodology">
 		<h3 class="title-font">Methodology</h3>
 		<p>{copy.methodology}</p>
 	</div>
@@ -202,7 +184,7 @@
 	}
 
 	.reveal {
-		font-size: 24px;
+		font-size: 40px;
 		letter-spacing: -0.5px;
 
 		line-height: 0.9;
@@ -223,16 +205,14 @@
 
 		.row {
 			display: flex;
-			align-items: center;
-			justify-content: space-between;
 
-			@media only screen and (max-width: 700px) {
-				flex-direction: column;
-			}
+			justify-content: space-between;
+			flex-direction: column;
+
+			text-align: left;
 
 			.plot {
 				width: 100%;
-				max-width: 500px;
 				display: flex;
 				border-radius: 5px;
 				overflow: hidden;
@@ -261,7 +241,5 @@
 		border-top: 1px solid #000;
 		margin-top: 10rem;
 		padding-top: 1rem;
-
-	
 	}
 </style>

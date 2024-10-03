@@ -74,7 +74,7 @@
 	const accents = ["#92BAFF", "#84F881", "#E05F89", "#565656", "#ECCA48"];
 </script>
 
-<div class="voter" class:inactive={$isShowingToploader}>
+<div class="voter title-font" class:inactive={$isShowingToploader}>
 	<p class="which">Which generation?</p>
 	<div class="voter__controls">
 		<div class="voter__controls__gens">
@@ -94,7 +94,7 @@
 				onClick={() => handleVote(idk)}
 				text="I don't know"
 				fixed={false}
-				fontSize="18px"
+				fontSize="50px"
 			/>
 		</div>
 		<!-- <button class="idk" on:click={() => handleVote(idk)}>{idk.name}</button> -->
@@ -110,11 +110,9 @@
 		}
 
 		.which {
-			font-size: 24px;
-			font-weight: 400;
-			letter-spacing: -0.8px;
-			margin: 0;
-			line-height: 1.3;
+			font-size: 40px;
+
+			margin: 50px 0px 0px 0px;
 			text-align: left;
 			color: rgba(120, 120, 120, 1);
 			-webkit-font-smoothing: antialiased;
@@ -124,7 +122,7 @@
 			margin-top: 1rem;
 
 			@media only screen and (max-width: 600px) {
-				font-size: 16px;
+				// font-size: 16px;
 			}
 		}
 
@@ -142,8 +140,10 @@
 
 			.idk {
 				text-align: center;
-				margin-top: 1rem;
-				margin-bottom: 1rem;
+				margin: 1rem 0px;
+				@media only screen and (max-width: 600px) {
+					margin: 1rem 0px 0px;
+				}
 			}
 		}
 		&__controls__gens {

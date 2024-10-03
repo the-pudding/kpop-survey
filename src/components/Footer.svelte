@@ -122,6 +122,8 @@
 		font-family: var(--sans);
 		padding: 3em 1em;
 		margin-top: 3em;
+		z-index: 100;
+		position: relative;
 	}
 
 	a,

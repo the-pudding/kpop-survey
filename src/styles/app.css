@@ -9,7 +9,7 @@
 	--sans: "Atlas Grotesk", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
 	--serif: "Tiempos Text Web", Iowan Old Style, Times New Roman, Times, serif;
 	--mono: Menlo, Consolas, Monaco, monospace;
-	--title: "Lilita One", sans-serif;
+	--title: "Dongle", sans-serif;
 
 	/* z-index */
 	--z-bottom: -100;
@@ -21,7 +21,7 @@
 	--border-radius: 2px;
 	--font-body: var(--sans);
 	--font-form: var(--sans);
-	--color-bg: #F8F6F6;
+	--color-bg: #F7FEFE;
 	--color-fg: black;
 	--color-primary: var(--color-black);
 	--color-link: var(--color-black);
@@ -112,5 +112,6 @@ h6 {
 	font-family: var(--title);
 	font-weight: 400;
 	font-style: normal;
+	line-height: 0.8em;
   }
   

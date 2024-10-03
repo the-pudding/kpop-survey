@@ -4,12 +4,13 @@
 	export let maxArtistIndex;
 </script>
 
-<p class="count">{$currentArtistIndex + 1} of {maxArtistIndex}</p>
+<p class="count title-font">{$currentArtistIndex + 1} of {maxArtistIndex}</p>
 
 <style lang="scss">
 	.count {
+		font-family: var(--title);
 		color: rgba(120, 120, 120, 1);
-		font-size: 14px;
+		font-size: 30px;
 		margin: 0;
 		font-weight: 500;
 		-webkit-font-smoothing: antialiased;
@@ -20,7 +21,7 @@
 		flex-shrink: 0;
 
 		@media only screen and (max-width: 600px) {
-			margin-bottom: 5px;
+			margin-bottom: 10px;
 		}
 	}
 </style>

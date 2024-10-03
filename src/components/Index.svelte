@@ -12,6 +12,7 @@
 	import Board from "$components/Board/Board.svelte";
 	import IntroGallery from "./IntroGallery.svelte";
 	import { state } from "$stores/misc";
+	import Illos from "$components/Illos.svelte";
 
 	// utils
 
@@ -55,7 +56,6 @@
 </script>
 
 <svelte:head>
-
 	{#each preloadImageUrls as image}
 		<link rel="preload" as="image" href={image} />
 	{/each}
@@ -71,7 +71,12 @@
 	{/each}
 </Slide>
 {/each} -->
-	<article style:--height={$state == "survey" || $state == "results" ? "100%" : "100svh"}>
+	<article
+		style:--height={$state == "survey" || $state == "results"
+			? "100%"
+			: "100svh"}
+	>
+		<Illos receded={Boolean(activeSlide)} />
 		<Slider bind:this={sliderEl} bind:current={activeSlide} duration="0">
 			{#each copy.body.index || [] as { type, value: props, component }, idx (idx)}
 				{@const isActive = idx == activeSlide ? true : false}
@@ -141,12 +146,10 @@
 
 <style lang="scss">
 	.text {
-		font-size: 4rem;
-		font-weight: 400;
+		font-size: 90px;
+		font-weight: bold;
 		width: calc(100% - 50px);
-		max-width: 900px;
-		letter-spacing: -0.5px;
-		line-height: 1.2;
+		max-width: 700px;
 
 		@media only screen and (max-width: 600px) {
 			max-width: 100%;
@@ -190,6 +193,10 @@
 			justify-content: center;
 			padding: 1rem;
 			text-align: center;
+
+			@media only screen and (max-width: 600px) {
+				padding-top: 0px;
+			}
 
 			&.vertical-center {
 				align-items: center;

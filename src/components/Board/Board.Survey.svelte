@@ -39,7 +39,7 @@
 </script>
 
 <div id="survey">
-	<h2 class="title-font">{copy.title}</h2>
+	<h1 class="title-font">{copy.title}</h1>
 	<p>{copy.text}</p>
 	<form>
 		{#each copy.factors as factor}
@@ -58,7 +58,7 @@
 			</div>
 		{/each}
 		<div class="next">
-			<Next onClick={handleSubmit} fixed={false} />
+			<Next onClick={handleSubmit} fixed={false} fontSize="3rem" />
 		</div>
 
 		<!-- <button class="next" on:click={handleSubmit}

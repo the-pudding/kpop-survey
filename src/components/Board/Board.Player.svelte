@@ -34,7 +34,7 @@
 	}
 </script>
 
-<span class="artist__player" on:click={toggleAudio}>
+<div class="artist__player" on:click={toggleAudio}>
 	{#if playing}
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -57,23 +57,30 @@
 		</svg>
 	{/if}
 
-	{artist.song}
-</span>
+	<span> {artist.song}</span>
+</div>
 
 <style lang="scss">
 	.artist__player {
 		display: flex;
 		align-items: center;
-		gap: 0.25rem;
+		gap: 0.75rem;
 		font-weight: 500;
 		cursor: pointer;
 		margin-top: 0.25rem;
+		color: #787878;
+
+	
 
 		svg {
 			height: 35px;
 			width: 35px;
 			fill: #787878;
 			transition: fill 0.25s;
+		}
+
+		span {
+			margin-top: 7px;
 		}
 
 		&:hover {
