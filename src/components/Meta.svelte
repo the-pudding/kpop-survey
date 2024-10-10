@@ -1,4 +1,5 @@
 <script>
+		import { base } from "$app/paths";
 	export let title = "Title TK";
 	export let description = "Description TK";
 	export let url = "https://pudding.cool";
@@ -12,6 +13,7 @@
 	<meta name="author" content="The Pudding" />
 	<meta name="news_keywords" content={keywords} />
 
+	<link rel="icon" href="{base}/favicon.ico" sizes="any">
 	<meta property="og:title" content={title} />
 	<meta property="og:site_name" content="The Pudding" />
 	<meta property="og:url" content={url} />
