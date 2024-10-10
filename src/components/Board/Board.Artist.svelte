@@ -6,10 +6,11 @@
 	import { fade } from "svelte/transition";
 
 	export let artist;
-	export let currentArtistIndex;
+	export let previousSubmission = undefined;
 
 	let artWidth;
 	let artHeight;
+
 </script>
 
 <div class="artist title-font">
@@ -19,7 +20,7 @@
 		song is
 	</p>
 
-	<Player {artist} {currentArtistIndex} />
+	<Player {artist} />
 
 	<div
 		class="artist__art"
@@ -38,6 +39,14 @@
 				class="layer plastic"
 				style:--image="url({base}/assets/toploaders/plastic.png)"
 			></div>
+
+			{#if previousSubmission?.gen}
+				<div
+					in:fade={{ duration: 0 }}
+					class="layer toploader"
+					style:--image="url({base}/assets/toploaders/{previousSubmission?.gen}.png)"
+				></div>
+			{/if}
 
 			{#if $isShowingToploader}
 				<div

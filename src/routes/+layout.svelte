@@ -6,9 +6,14 @@
 	import Meta from "$components/Meta.svelte";
 	import generateId from "$utils/generateId.js";
 	import localStorage from "$utils/localStorage.js";
-	import { userId, currentArtistIndex, shuffledArtists, state, test } from "$stores/misc";
+	import {
+		userId,
+		currentArtistIndex,
+		entries,
+		state,
+		test
+	} from "$stores/misc";
 	import { getContext } from "svelte";
-
 
 	if (typeof window !== "undefined") {
 		function checkAndClearParams() {
@@ -30,9 +35,13 @@
 				localStorage.remove("surveyComplete");
 			}
 
+			if (urlParams.get("clearEntries") === "true") {
+				localStorage.remove("entries");
+			}
+
 			if (urlParams.get("test") === "true") {
-				$test = true
-				console.log("----In testing mode!----")
+				$test = true;
+				console.log("----In testing mode!----");
 			}
 
 			if (urlParams.get("clear") === "true") {
@@ -40,11 +49,11 @@
 				localStorage.remove("currentArtistIndex");
 				localStorage.remove("surveyComplete");
 				localStorage.remove("shuffledArtists");
+				localStorage.remove("entries");
 			}
 		}
 
 		function initializeUser() {
-
 			$userId = localStorage.get("userId");
 
 			if (!$userId) {
@@ -58,14 +67,11 @@
 				$userId = localStorage.get("userId");
 			}
 
-
-
 			// Handle last submitted ID
 			$currentArtistIndex =
 				localStorage.get("currentArtistIndex") || $currentArtistIndex;
 
-
-
+			$entries = localStorage.get("entries") || $entries;
 		}
 
 		// Call functions on client-side only
@@ -73,7 +79,6 @@
 		initializeUser();
 	}
 </script>
-
 
 <Header />
 <main id="content">

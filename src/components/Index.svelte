@@ -49,7 +49,7 @@
 
 	preloadImageUrls = [
 		...preloadImageUrls,
-		...["1st", "2nd", "3rd", "4th", "5th"].map(
+		...["1", "2", "3", "4", "5"].map(
 			(gen) => `${base}/assets/toploaders/${gen}.png`
 		)
 	];

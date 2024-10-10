@@ -9,5 +9,6 @@ export const currentArtistIndex = writable(0)
 export const shuffledArtists = writable()
 export const isShowingToploader = writable(false)
 export const toploaderImageName = writable()
+export const entries = writable([])
 
 export const test = writable(false)

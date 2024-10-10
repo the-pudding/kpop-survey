@@ -5,6 +5,8 @@
 	import { state, userId, test } from "$stores/misc";
 	import { addData } from "$utils/supabase";
 
+	import Confetti from "./Board.Confetti.svelte";
+
 	export let arrowStroke = "rgba(120, 120, 120, 1)";
 	export let arrowStrokeWidth = "3";
 	export let selectedFactors = [];
@@ -37,6 +39,8 @@
 		$state = "results";
 	}
 </script>
+
+<Confetti />
 
 <div id="survey">
 	<h1 class="title-font">{copy.title}</h1>

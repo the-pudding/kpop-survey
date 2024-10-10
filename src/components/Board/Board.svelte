@@ -7,7 +7,12 @@
 	import Results from "./Board.Results.svelte";
 	import localStorage from "$utils/localStorage.js";
 
-	import { state, currentArtistIndex, shuffledArtists } from "$stores/misc";
+	import {
+		state,
+		currentArtistIndex,
+		shuffledArtists,
+		entries
+	} from "$stores/misc";
 
 	export let copy;
 	export let artists;
@@ -15,6 +20,7 @@
 	$state = "voting";
 
 	let currentArtist;
+	let previousSubmission;
 
 	onMount(() => {
 		// Check if the shuffled version is already in localStorage
@@ -49,6 +55,13 @@
 			$state = "results";
 		}
 	}
+
+	$: if (currentArtist) {
+		previousSubmission = $entries.find(
+			(entry) => entry.artist_id == currentArtist.id
+		);
+	}
+
 </script>
 
 {#if $shuffledArtists}
@@ -58,9 +71,9 @@
 	>
 		{#if $state == "voting"}
 			<Counter maxArtistIndex={artists.length} />
-			<Artist artist={currentArtist} />
+			<Artist artist={currentArtist} {previousSubmission} />
 
-			<Voter artist={currentArtist} />
+			<Voter artist={currentArtist} bind:previousSubmission />
 		{:else if $state == "survey"}
 			<Survey bind:selectedFactors copy={copy.survey} />
 		{:else if $state == "results"}

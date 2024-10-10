@@ -6,13 +6,15 @@
 		currentArtistIndex,
 		isShowingToploader,
 		toploaderImageName,
+		entries,
 		test
 	} from "$stores/misc";
 
-	import { addData } from "$utils/supabase";
+	import { addData, deleteEntry } from "$utils/supabase";
 
 	import Next from "$components/Next.svelte";
 	export let artist;
+	export let previousSubmission;
 
 	let results = [
 		{
@@ -43,8 +45,18 @@
 
 	let [idk, ...gens] = results;
 
-	const handleVote = (option) => {
+	const handleVote = async (option) => {
+		if (previousSubmission) {
+			$entries = [...$entries.filter((entry) => entry.artist_id != artist.id)];
+	
+
+			if (!$test) await deleteEntry($userId, Number(artist.id))
+	
+			previousSubmission = undefined;
+		}
+
 		localStorage.set("currentArtistIndex", $currentArtistIndex + 1);
+
 		let entry = {
 			artist_id: artist.id,
 			gen: option.id,
@@ -59,17 +71,33 @@
 
 		if (option.id) {
 			$isShowingToploader = true;
-			$toploaderImageName = option.name;
+			$toploaderImageName = option.id;
 
 			interval = setTimeout(() => {
 				$isShowingToploader = false;
 				$toploaderImageName = undefined;
+
+				$entries = [...$entries, entry];
+
+				localStorage.set("entries", $entries);
 				++$currentArtistIndex;
 			}, 1000);
 		} else {
+			$entries = [...$entries, entry];
+
+			localStorage.set("entries", $entries);
 			++$currentArtistIndex;
 		}
 	};
+
+	const handleBack = () => {
+		--$currentArtistIndex;
+	};
+
+	const handleNext = () => {
+		++$currentArtistIndex;
+	};
+
 
 	const accents = ["#92BAFF", "#84F881", "#E05F89", "#565656", "#ECCA48"];
 </script>
@@ -81,23 +109,38 @@
 			{#each gens as option, i (option)}
 				<button
 					key={option}
-					style:--toploader-url="url({base}/assets/toploaders/{option.name}.png)"
+					style:--toploader-url="url({base}/assets/toploaders/{option.id}.png)"
 					style:--color-accent={accents[i]}
-					class:active={$toploaderImageName == option.name}
+					class:active={ previousSubmission?.gen == option.id || $toploaderImageName == option.id}
 					on:click={() => handleVote(option)}>{option.name}</button
 				>
 			{/each}
 		</div>
 
-		<div class="idk">
+		<!-- <div class="idk">
 			<Next
 				onClick={() => handleVote(idk)}
 				text="I don't know"
 				fixed={false}
 				fontSize="50px"
 			/>
+		</div> -->
+		<div class="bottom-buttons">
+			<button
+				class="back title-font"
+				class:hidden={!$currentArtistIndex}
+				on:click={() => handleBack()}>Back</button
+			>
+			<button class="idk title-font" on:click={() => handleVote(idk)}
+				>{idk.name}</button
+			>
+
+			<button
+				class="next title-font"
+				class:hidden={!previousSubmission}
+				on:click={() => handleNext()}>Next</button
+			>
 		</div>
-		<!-- <button class="idk" on:click={() => handleVote(idk)}>{idk.name}</button> -->
 	</div>
 </div>
 
@@ -138,11 +181,23 @@
 			-moz-osx-font-smoothing: grayscale;
 			text-rendering: optimizeLegibility;
 
-			.idk {
-				text-align: center;
-				margin: 1rem 0px;
-				@media only screen and (max-width: 600px) {
-					margin: 1rem 0px 0px;
+			.bottom-buttons {
+				display: flex;
+				justify-content: space-between;
+				margin-top: 50px;
+				padding-bottom: 25px;
+				button {
+					color: rgba(120, 120, 120, 1);
+					background: transparent;
+					font-size: 30px;
+					padding: 0px;
+			
+					border-bottom: 2px solid;
+
+					&.hidden {
+						opacity: 0;
+						pointer-events: none;
+					}
 				}
 			}
 		}
