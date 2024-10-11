@@ -24,12 +24,12 @@
 
 	onMount(() => {
 		// Check if the shuffled version is already in localStorage
-		$shuffledArtists = localStorage.get("shuffledArtists");
+		$shuffledArtists = localStorage.get("shuffledArtistsCookie");
 
 		if (!$shuffledArtists) {
 			// If not, shuffle the artists and store the result
 			$shuffledArtists = artists.slice().sort(() => Math.random() - 0.5);
-			localStorage.set("shuffledArtists", JSON.stringify($shuffledArtists));
+			localStorage.set("shuffledArtistsCookie", JSON.stringify($shuffledArtists));
 		} else {
 			// Parse it if it exists
 			$shuffledArtists = JSON.parse($shuffledArtists);
@@ -50,7 +50,7 @@
 
 		if (
 			$currentArtistIndex > $shuffledArtists.length - 1 &&
-			localStorage.get("surveyComplete")
+			localStorage.get("surveyCompleteCookie")
 		) {
 			$state = "results";
 		}

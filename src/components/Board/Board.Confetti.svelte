@@ -51,6 +51,7 @@
 
 <div
 	class="confetti-container"
+	aria-hidden="true"
 	bind:clientHeight={containerH}
 	style:--height="{containerH}px"
 >

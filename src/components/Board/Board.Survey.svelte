@@ -35,7 +35,7 @@
 
 		if (!$test) addData(entry, "survey");
 
-		localStorage.set("surveyComplete", true);
+		localStorage.set("surveyCompleteCookie", true);
 		$state = "results";
 	}
 </script>

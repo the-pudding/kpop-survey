@@ -3,22 +3,15 @@
 
 	import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
-	import Intro from "$components/Intro.svelte";
 	import copy from "$data/copy.json";
 	import Slider from "$components/helpers/Slider.svelte";
 	import Slide from "$components/helpers/Slider.Slide.svelte";
 	import Tap from "$components/helpers/Tap.svelte";
 
 	import Board from "$components/Board/Board.svelte";
-	import IntroGallery from "./IntroGallery.svelte";
 	import { state } from "$stores/misc";
 	import Illos from "$components/Illos.svelte";
 
-	// utils
-
-	// function handleStartEvent(event) {
-	// 	experienceStarted = event.detail.started;
-	// }
 
 	export let artists;
 
@@ -62,15 +55,6 @@
 </svelte:head>
 
 {#if mounted}
-	<!-- {#each allSlides as slide, i}
-<Slide index={i}>
-	{#each slide.text as { type, text }}
-		<svelte:element this={type} class="slide-content">
-			{@html text}
-		</svelte:element>
-	{/each}
-</Slide>
-{/each} -->
 	<article
 		style:--height={$state == "survey" || $state == "results"
 			? "100%"
@@ -80,8 +64,7 @@
 		<Slider bind:this={sliderEl} bind:current={activeSlide} duration="0">
 			{#each copy.body.index || [] as { type, value: props, component }, idx (idx)}
 				{@const isActive = idx == activeSlide ? true : false}
-				<!-- {#each allSlides as slide, i} -->
-
+		
 				<Slide index={idx} cls={type == "voting" ? "" : "vertical-center"}>
 					{#if type === "section"}
 						{#each props as text}
@@ -96,9 +79,6 @@
 							{/if}
 						{/each}
 
-						<!-- {#if idx == 1 && isActive}
-							<IntroGallery />
-						{/if} -->
 					{:else if type == "voting"}
 						{#if isActive}
 							<Board {experienceStarted} artists={artists.reverse()} {copy}
@@ -123,25 +103,6 @@
 		{/if}
 	</article>
 
-	<!-- {#if !experienceStarted}
-		<Intro on:start={handleStartEvent} {copy}/>
-	{/if} -->
-
-	<!-- {#if experienceStarted} -->
-	<!-- <Board {experienceStarted} columnItems={board}></Board> -->
-	<!-- {/if} -->
-
-	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<!-- <div class="artist"
-		draggable=true
-		on:click={() => click()}
-		
-		on:drag={() => dragging}
-	>
-		{artists[0].name}
-	</div> -->
 {/if}
 
 <style lang="scss">
@@ -159,11 +120,9 @@
 	}
 
 	article {
-		// position: absolute;
 		width: 100lvw;
 		overflow-x: hidden;
 		height: calc(var(--height) - var(--header-height));
-		// padding: 1rem;
 		z-index: 3;
 	}
 	:global(.slide a) {

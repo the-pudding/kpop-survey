@@ -122,7 +122,7 @@
 	{/each}
 </svelte:head>
 
-<div id="illos">
+<div id="illos" aria-hidden="true">
 	<div id="canvas" class:receded>
 		{#each illos as illo}
 			<img

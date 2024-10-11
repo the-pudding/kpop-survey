@@ -34,7 +34,7 @@
 	}
 </script>
 
-<div class="artist__player" on:click={toggleAudio}>
+<button class="artist__player title-font" aria-label="{artist.song}. Click to play a sample." on:click={toggleAudio} tabindex="0" >
 	{#if playing}
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,7 @@
 	{/if}
 
 	<span> {artist.song}</span>
-</div>
+	</button>
 
 <style lang="scss">
 	.artist__player {
@@ -69,6 +69,8 @@
 		cursor: pointer;
 		margin-top: 0.25rem;
 		color: #787878;
+		background: none;
+		font-size: inherit;
 
 	
 

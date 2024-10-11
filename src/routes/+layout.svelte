@@ -20,23 +20,23 @@
 			const urlParams = new URLSearchParams(window.location.search);
 
 			if (urlParams.get("clearId") === "true") {
-				localStorage.remove("userId");
+				localStorage.remove("userIdCookie");
 			}
 
 			if (urlParams.get("clearCurrentArtistIndex") === "true") {
-				localStorage.remove("currentArtistIndex");
+				localStorage.remove("currentArtistIndexCookie");
 			}
 
 			if (urlParams.get("clearShuffledArtists") === "true") {
-				localStorage.remove("shuffledArtists");
+				localStorage.remove("shuffledArtistsCookie");
 			}
 
 			if (urlParams.get("clearSurveyComplete") === "true") {
-				localStorage.remove("surveyComplete");
+				localStorage.remove("surveyCompleteCookie");
 			}
 
 			if (urlParams.get("clearEntries") === "true") {
-				localStorage.remove("entries");
+				localStorage.remove("entriesCookie");
 			}
 
 			if (urlParams.get("test") === "true") {
@@ -45,16 +45,16 @@
 			}
 
 			if (urlParams.get("clear") === "true") {
-				localStorage.remove("userId");
-				localStorage.remove("currentArtistIndex");
-				localStorage.remove("surveyComplete");
-				localStorage.remove("shuffledArtists");
-				localStorage.remove("entries");
+				localStorage.remove("userIdCookie");
+				localStorage.remove("currentArtistIndexCookie");
+				localStorage.remove("surveyCompleteCookie");
+				localStorage.remove("shuffledArtistsCookie");
+				localStorage.remove("entriesCookie");
 			}
 		}
 
 		function initializeUser() {
-			$userId = localStorage.get("userId");
+			$userId = localStorage.get("userIdCookie");
 
 			if (!$userId) {
 				const newUserId = generateId({
@@ -63,15 +63,15 @@
 					numbers: true,
 					chars: 10
 				});
-				localStorage.set("userId", newUserId);
-				$userId = localStorage.get("userId");
+				localStorage.set("userIdCookie", newUserId);
+				$userId = localStorage.get("userIdCookie");
 			}
 
 			// Handle last submitted ID
 			$currentArtistIndex =
-				localStorage.get("currentArtistIndex") || $currentArtistIndex;
+				localStorage.get("currentArtistIndexCookie") || $currentArtistIndex;
 
-			$entries = localStorage.get("entries") || $entries;
+			$entries = localStorage.get("entriesCookie") || $entries;
 		}
 
 		// Call functions on client-side only

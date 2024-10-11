@@ -10,10 +10,9 @@
 
 	let artWidth;
 	let artHeight;
-
 </script>
 
-<div class="artist title-font">
+<div class="artist title-font" tabindex="0" >
 	<div class="artist__title">{artist.name}</div>
 	<p class="artist__description">
 		Debuted in {artist["debut year"]} under {artist.company} and their highest streaming
@@ -28,15 +27,17 @@
 		bind:clientHeight={artHeight}
 	>
 		<div class="inner {artWidth < artHeight ? 'use-width' : 'use-height'}">
-			<div class="layer back"></div>
+			<div class="layer back" aria-hidden="true"></div>
 
 			<div
 				class="layer image"
 				style:--image="url({base}/assets/images/{artist.id}.jpg)"
+				aria-label="Artist image for {artist.name}"
 			></div>
 
 			<div
 				class="layer plastic"
+				aria-hidden="true"
 				style:--image="url({base}/assets/toploaders/plastic.png)"
 			></div>
 
@@ -44,6 +45,7 @@
 				<div
 					in:fade={{ duration: 0 }}
 					class="layer toploader"
+					aria-hidden="true"
 					style:--image="url({base}/assets/toploaders/{previousSubmission?.gen}.png)"
 				></div>
 			{/if}
@@ -52,11 +54,11 @@
 				<div
 					in:fade={{ duration: 500 }}
 					class="layer toploader"
+					aria-hidden="true"
 					style:--image="url({base}/assets/toploaders/{$toploaderImageName}.png)"
 				></div>
 			{/if}
 		</div>
-		<!-- <img src="{base}/assets/images/{artist.id}.jpg" alt="" /> -->
 	</div>
 </div>
 
@@ -148,19 +150,8 @@
 
 				.back {
 					border-radius: 16px;
-					// width: 100%;
-					// height: 100%;
 					background-color: #f7f7f7;
-
 					filter: drop-shadow(2px 2px 6px #ddd);
-					// background-repeat: no-repeat;
-					// background-position: center;
-					// background-size: contain;
-					// position: absolute;
-					// margin: 0 auto;
-					// top: 0;
-					// left: 0;
-					// right: 0;
 				}
 
 				.plastic {

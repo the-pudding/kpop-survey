@@ -55,7 +55,7 @@
 			previousSubmission = undefined;
 		}
 
-		localStorage.set("currentArtistIndex", $currentArtistIndex + 1);
+		localStorage.set("currentArtistIndexCookie", $currentArtistIndex + 1);
 
 		let entry = {
 			artist_id: artist.id,
@@ -79,13 +79,13 @@
 
 				$entries = [...$entries, entry];
 
-				localStorage.set("entries", $entries);
+				localStorage.set("entriesCookie", $entries);
 				++$currentArtistIndex;
 			}, 1000);
 		} else {
 			$entries = [...$entries, entry];
 
-			localStorage.set("entries", $entries);
+			localStorage.set("entriesCookie", $entries);
 			++$currentArtistIndex;
 		}
 	};
@@ -103,7 +103,7 @@
 </script>
 
 <div class="voter title-font" class:inactive={$isShowingToploader}>
-	<p class="which">Which generation?</p>
+	<p class="which" tabindex="0" aria-label="Use the following buttons to select which generation the artist is from, or select I don't know.">Which generation?</p>
 	<div class="voter__controls">
 		<div class="voter__controls__gens">
 			{#each gens as option, i (option)}
@@ -112,6 +112,7 @@
 					style:--toploader-url="url({base}/assets/toploaders/{option.id}.png)"
 					style:--color-accent={accents[i]}
 					class:active={ previousSubmission?.gen == option.id || $toploaderImageName == option.id}
+					aria-label="{option.name} generation."
 					on:click={() => handleVote(option)}>{option.name}</button
 				>
 			{/each}
@@ -129,6 +130,7 @@
 			<button
 				class="back title-font"
 				class:hidden={!$currentArtistIndex}
+				aria-hidden={!previousSubmission}
 				on:click={() => handleBack()}>Back</button
 			>
 			<button class="idk title-font" on:click={() => handleVote(idk)}
@@ -138,6 +140,7 @@
 			<button
 				class="next title-font"
 				class:hidden={!previousSubmission}
+				aria-hidden={!previousSubmission}
 				on:click={() => handleNext()}>Next</button
 			>
 		</div>
