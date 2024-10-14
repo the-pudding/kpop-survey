@@ -50,7 +50,9 @@
 
 <div id="results">
 	<h1 class="title-font">{copy.title}</h1>
-	<p>{copy.text}</p>
+	{#each copy.text.split("\n") as p}
+		<p>{@html p}</p>
+	{/each}
 
 	<form on:submit={handleSubmit} class="email-signup">
 		<input
