@@ -12,7 +12,6 @@
 	import { state } from "$stores/misc";
 	import Illos from "$components/Illos.svelte";
 
-
 	export let artists;
 
 	let sliderEl;
@@ -64,7 +63,7 @@
 		<Slider bind:this={sliderEl} bind:current={activeSlide} duration="0">
 			{#each copy.body.index || [] as { type, value: props, component }, idx (idx)}
 				{@const isActive = idx == activeSlide ? true : false}
-		
+
 				<Slide index={idx} cls={type == "voting" ? "" : "vertical-center"}>
 					{#if type === "section"}
 						{#each props as text}
@@ -78,7 +77,6 @@
 								</p>
 							{/if}
 						{/each}
-
 					{:else if type == "voting"}
 						{#if isActive}
 							<Board {experienceStarted} artists={artists.reverse()} {copy}
@@ -101,8 +99,20 @@
 				on:tap={onTap}
 			/>
 		{/if}
-	</article>
 
+		{#if activeSlide == 0}
+			<button
+				class="jump-to-results"
+				on:click={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					$state = "results";
+					const votingIndex = copy.body.index.findIndex((d) => d.type === "voting");
+					if (votingIndex > -1) sliderEl.jump(votingIndex);
+				}}>Or jump to the results!</button
+			>
+		{/if}
+	</article>
 {/if}
 
 <style lang="scss">
@@ -160,6 +170,27 @@
 			&.vertical-center {
 				align-items: center;
 			}
+		}
+	}
+
+	.jump-to-results {
+		position: fixed;
+		background: none;
+
+		border-bottom: 4px solid var(--color-pink);
+		font-size: 20px;
+		font-weight: bold;
+		cursor: pointer;
+		margin-top: 20px;
+		margin: 0;
+		align-self: flex-end;
+		right: 2rem;
+		bottom: 1rem;
+		transition: transform 0.3s;
+		z-index: 10000000;
+
+		&:hover {
+			transform: scale(1.1);
 		}
 	}
 </style>

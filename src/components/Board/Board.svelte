@@ -17,7 +17,7 @@
 	export let copy;
 	export let artists;
 
-	$state = "voting";
+	if ($state !== "results") $state = "voting";
 
 	let currentArtist;
 	let previousSubmission;

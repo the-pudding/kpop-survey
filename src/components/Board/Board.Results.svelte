@@ -4,7 +4,7 @@
 	import ChevronDown from "lucide-svelte/icons/chevron-down";
 	import ChevronUp from "lucide-svelte/icons/chevron-up";
 	import { addData, summarizeGenShare } from "$utils/supabase";
-	import { userId, test } from "$stores/misc";
+	import { state, userId, test } from "$stores/misc";
 	import shadeColor from "$utils/shadeColor";
 
 	export let artists;
@@ -34,6 +34,14 @@
 		window.scrollTo(0, 0);
 
 		results = await summarizeGenShare();
+
+		if ($state === "results") {
+			showResults = true;
+			setTimeout(() => {
+				const scrollTo = document.querySelector(".reveal");
+				if (scrollTo) scrollTo.scrollIntoView({ behavior: "smooth" });
+			}, 100);
+		}
 	});
 
 	let genIds = [1, 2, 3, 4, 5, 0];
